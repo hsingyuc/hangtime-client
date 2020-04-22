@@ -16,7 +16,6 @@ class Sessions extends React.PureComponent {
 		const response = await fetch( 'http://localhost:8080/users/35/sessions' );
 		const json = await response.json();
 		this.setState( { sessions: json.data } );
-		console.log(json);
 	}
 
 	render() {
