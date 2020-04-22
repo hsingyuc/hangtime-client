@@ -1,20 +1,23 @@
-const jwt = require("jsonwebtoken");
+const jwt = require( 'jsonwebtoken' );
 
-export const authenticate = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+export const authenticate = ( req, res, next ) => {
+	const authHeader = req.headers.authorization;
 
-    if (authHeader) {
-        const token = authHeader.split(' ')[1];
+	if ( authHeader ) {
+		const token = authHeader.split( ' ' )[1];
 
-        jwt.verify(token, 'secret-to-update', (err, data) => {
-            if (err) {
-                return res.sendStatus(403);
-            }
+		jwt.verify( token, 'secret-to-update', ( err, data ) => {
+			if ( err ) {
+				return res.sendStatus( 403 );
+			}
 
-            req.user = data.user;
-            next();
-        });
-    } else {
-        res.sendStatus(401);
-    }
+			req.user = data.user;
+			return next();
+		} );
+	} else {
+		res.sendStatus( 401 );
+	}
 };
+
+
+export default authenticate;

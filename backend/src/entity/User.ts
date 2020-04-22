@@ -1,28 +1,29 @@
-import {Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, OneToMany} from "typeorm";
-const bcrypt = require('bcrypt');
-import {Session} from "./Session";
+import {
+	Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, OneToMany,
+} from 'typeorm';
+import { Session } from './Session';
+
+const bcrypt = require( 'bcrypt' );
 
 @Entity()
-export class User {
+export default class User {
+	@PrimaryGeneratedColumn()
+	id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+	@Column()
+	email: string;
 
-    @Column()
-    email: string;
+	@Column()
+	password: string;
 
-    @Column()
-    password: string;
+	@BeforeInsert()
+	@BeforeUpdate()
+	hashPassword() {
+		if ( this.password ) {
+			this.password = bcrypt.hashSync( this.password, 10 );
+		}
+	}
 
-    @BeforeInsert()
-    @BeforeUpdate()
-    hashPassword() {
-        if (this.password) {
-            this.password = bcrypt.hashSync(this.password, 10);
-        }
-    }
-
-    @OneToMany(type => Session, session => session.user)
-    sessions: Session[];
-    
+	@OneToMany( () => Session, ( session ) => session.user )
+	sessions: Session[];
 }
