@@ -11,6 +11,18 @@ import Workout from './Workout';
 
 class App extends React.PureComponent {
 	render() {
+		const workoutTypes = [
+			{
+				key: 'repeaters',
+				name: 'Repeaters',
+				sets: 3,
+				setsRestTime: 180,
+				repTime: 7,
+				repsRestTime: 3,
+				reps: 6,
+			},
+		];
+
 		return (
 			<div>
 				<Router>
@@ -23,6 +35,15 @@ class App extends React.PureComponent {
 								<li>
 									<Link to="/workouts">Workouts</Link>
 								</li>
+								{
+									workoutTypes.map( ( workout ) => {
+										return (
+											<li key={workout.key}>
+												<Link to={`/workouts/${workout.key}`}>{ workout.name }</Link>
+											</li>
+										);
+									} )
+								}
 								<li>
 									<Link to="/sessions">Sessions</Link>
 								</li>
@@ -33,7 +54,8 @@ class App extends React.PureComponent {
 			renders the first one that matches the current URL. */}
 						<Switch>
 							<Route path="/workouts">
-								<Workout />
+								<Workout
+								/>
 							</Route>
 							<Route path="/sessions">
 								<Sessions />
