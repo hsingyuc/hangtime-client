@@ -7,11 +7,11 @@ class Workout extends React.Component {
 		this.workout = {
 			key: 'repeaters',
 			name: 'Repeaters',
-			readyTime: 5,
+			readyTime: 5000,
 			sets: 3,
-			setsRestTime: 5,
-			repTime: 2,
-			repsRestTime: 3,
+			setsRestTime: 5000,
+			repTime: 2000,
+			repsRestTime: 3000,
 			reps: 6,
 		};
 		this.state = {
@@ -19,13 +19,14 @@ class Workout extends React.Component {
 			setCount: 0,
 			current: 'ready',
 			time: this.workout.readyTime,
+			timerTimestamp: null,
 		};
 		this.timeout = null;
-		this.startTimer = this.startTimer.bind( this );
+		this.countTimeDifference = this.countTimeDifference.bind( this );
 		this.pauseTimer = this.pauseTimer.bind( this );
 	}
 
-	startTimer() {
+	componentDidUpdate() {
 		const {
 			time,
 			current: previousStep,
@@ -36,12 +37,21 @@ class Workout extends React.Component {
 		const { sets, reps } = this.workout;
 
 		// Workout is finished.
+		if ( previousStep === 'complete' ) {
+			return;
+		}
+
+		// Workout is finished, set current to complete.
 		if ( setCount === sets ) {
 			this.setState( {
 				current: 'complete',
 			} );
 			return;
 		}
+
+		// @todo Need to combine rest methods.
+		// @todo Need to change goToRep to actually start a rep.
+		// @todo Need to add goToReady method.
 
 		// Completed a set.
 		if ( repCount === reps ) {
@@ -50,8 +60,6 @@ class Workout extends React.Component {
 				current: 'rest',
 				setCount: setCount + 1,
 				repCount: 0,
-			}, () => {
-				this.timeout = setTimeout( () => this.startTimer(), 1000 );
 			} );
 			return;
 		}
@@ -62,8 +70,6 @@ class Workout extends React.Component {
 				this.setState( {
 					time: this.workout.repTime,
 					current: 'rep',
-				}, () => {
-					this.timeout = setTimeout( () => this.startTimer(), 1000 );
 				} );
 				return;
 			}
@@ -73,8 +79,6 @@ class Workout extends React.Component {
 				this.setState( {
 					time: this.workout.repsRestTime,
 					current: 'rest',
-				}, () => {
-					this.timeout = setTimeout( () => this.startTimer(), 1000 );
 				} );
 				return;
 			}
@@ -85,30 +89,47 @@ class Workout extends React.Component {
 					time: this.workout.repTime,
 					current: 'rep',
 					repCount: repCount + 1,
-				}, () => {
-					this.timeout = setTimeout( () => this.startTimer(), 1000 );
 				} );
 				return;
 			}
 		}
-		this.setState( { time: time - 1 } );
-		this.timeout = setTimeout( () => this.startTimer(), 1000 );
+	}
+
+	countTimeDifference() {
+		const { time, timerTimestamp } = this.state;
+
+		const difference = timerTimestamp ? ( Date.now() - timerTimestamp ) : 0;
+
+		this.setState( {
+			time: Math.max( time - difference, 0 ),
+			timerTimestamp: Date.now(),
+		} );
+
+		this.timeout = setTimeout( () => this.countTimeDifference(), 1000 );
 	}
 
 	pauseTimer() {
 		clearTimeout( this.timeout );
 	}
 
+	goToReady() {
+		
+	}
+
 	goToRep( rep ) {
-		const { readyTime, reps } = this.workout;
+		const { readyTime, reps, setCount } = this.workout;
 
 		if ( rep > reps || rep < 0 ) {
 			return;
 		}
 
+		if ( rep === reps ) {
+			this.goToSet( setCount + 1 );
+		}
+
 		this.setState( {
 			repCount: rep,
-			current: rep === reps ? 'complete' : 'ready',
+			current: 'ready',
 			time: readyTime,
 		} );
 	}
@@ -150,7 +171,7 @@ class Workout extends React.Component {
 					Sets:
 					{ Math.min( setCount + 1, 3 ) } / 3
 				</span>
-				<button type="button" onClick={this.startTimer}>Start</button>
+				<button type="button" onClick={this.countTimeDifference}>Start</button>
 				<button type="button" onClick={this.pauseTimer}>Pause</button>
 				<button type="button" onClick={() => this.goToSet( setCount - 1 )}>Previous set</button>
 				<button type="button" onClick={() => this.goToSet( setCount + 1 )}>Next set</button>
