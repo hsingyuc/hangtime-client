@@ -112,10 +112,6 @@ class Workout extends React.Component {
 		clearTimeout( this.timeout );
 	}
 
-	goToReady() {
-		
-	}
-
 	goToRep( rep ) {
 		const { readyTime, reps, setCount } = this.workout;
 
