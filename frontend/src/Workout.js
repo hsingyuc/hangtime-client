@@ -8,16 +8,16 @@ class Workout extends React.Component {
 			key: 'repeaters',
 			name: 'Repeaters',
 			readyTime: 5000,
-			sets: 3,
-			setsRestTime: 5000,
+			sets: 2,
+			setsRestTime: 7000,
 			repTime: 2000,
 			repsRestTime: 3000,
-			reps: 6,
+			reps: 2,
 		};
 		this.state = {
-			repCount: 0,
-			setCount: 0,
-			current: 'ready',
+			currentRep: 1,
+			currentSet: 1,
+			status: 'ready',
 			time: this.workout.readyTime,
 			timerTimestamp: null,
 		};
@@ -29,68 +29,31 @@ class Workout extends React.Component {
 	componentDidUpdate() {
 		const {
 			time,
-			current: previousStep,
-			repCount,
-			setCount,
+			status,
+			currentRep,
 		} = this.state;
 
-		const { sets, reps } = this.workout;
-
 		// Workout is finished.
-		if ( previousStep === 'complete' ) {
-			return;
-		}
-
-		// Workout is finished, set current to complete.
-		if ( setCount === sets ) {
-			this.setState( {
-				current: 'complete',
-			} );
-			return;
-		}
-
-		// @todo Need to combine rest methods.
-		// @todo Need to change goToRep to actually start a rep.
-		// @todo Need to add goToReady method.
-
-		// Completed a set.
-		if ( repCount === reps ) {
-			this.setState( {
-				time: this.workout.setsRestTime,
-				current: 'rest',
-				setCount: setCount + 1,
-				repCount: 0,
-			} );
+		if ( status === 'complete' ) {
 			return;
 		}
 
 		if ( time === 0 ) {
-			// Start workout
-			if ( previousStep === 'ready' ) {
-				this.setState( {
-					time: this.workout.repTime,
-					current: 'rep',
-				} );
+			// Start workout.
+			if ( status === 'ready' ) {
+				this.goToRep( currentRep );
+				return;
+			}
+
+			// Finished rest, start rep.
+			if ( status === 'rest' ) {
+				this.goToRep( currentRep + 1 );
 				return;
 			}
 
 			// Start a rest period.
-			if ( previousStep === 'rep' ) {
-				this.setState( {
-					time: this.workout.repsRestTime,
-					current: 'rest',
-				} );
-				return;
-			}
-
-			// Start a rep.
-			if ( previousStep === 'rest' ) {
-				this.setState( {
-					time: this.workout.repTime,
-					current: 'rep',
-					repCount: repCount + 1,
-				} );
-				return;
+			if ( status === 'rep' ) {
+				this.goToRest();
 			}
 		}
 	}
@@ -105,74 +68,108 @@ class Workout extends React.Component {
 			timerTimestamp: Date.now(),
 		} );
 
-		this.timeout = setTimeout( () => this.countTimeDifference(), 1000 );
+		this.timeout = setTimeout( () => this.countTimeDifference(), 50 );
 	}
 
 	pauseTimer() {
 		clearTimeout( this.timeout );
 	}
 
-	goToRep( rep ) {
-		const { readyTime, reps, setCount } = this.workout;
+	goToRep( rep, addReady = false ) {
+		const { readyTime, reps, repTime } = this.workout;
+		const { currentSet } = this.state;
 
-		if ( rep > reps || rep < 0 ) {
+		if ( rep < 1 ) {
 			return;
 		}
 
-		if ( rep === reps ) {
-			this.goToSet( setCount + 1 );
+		if ( rep > reps ) {
+			this.goToSet( currentSet + 1 );
+			return;
 		}
 
 		this.setState( {
-			repCount: rep,
-			current: 'ready',
-			time: readyTime,
+			currentRep: rep,
+			status: addReady ? 'ready' : 'rep',
+			time: addReady ? readyTime : repTime,
 		} );
 	}
 
 	goToSet( set ) {
 		const { readyTime, sets } = this.workout;
 
-		if ( set > sets || set < 0 ) {
+		if ( set < 1 ) {
+			return;
+		}
+
+		if ( set > sets ) {
+			this.setState( {
+				status: 'complete',
+			} );
 			return;
 		}
 
 		this.setState( {
-			setCount: set,
-			repCount: 0,
-			current: set === sets ? 'complete' : 'ready',
+			currentSet: set,
+			currentRep: 1,
+			status: 'ready',
 			time: readyTime,
+		} );
+	}
+
+	goToRest() {
+		const { reps, repsRestTime, sets, setsRestTime } = this.workout;
+		const { currentRep, currentSet } = this.state;
+
+		if ( currentRep === reps && currentSet === sets ) {
+			this.setState( {
+				status: 'complete',
+			} );
+			return;
+		}
+
+		if ( currentRep < reps ) {
+			this.setState( {
+				time: repsRestTime,
+				status: 'rest',
+			} );
+			return;
+		}
+
+		this.setState( {
+			time: setsRestTime,
+			status: 'rest',
 		} );
 	}
 
 	render() {
 		const {
 			time,
-			repCount,
-			setCount,
-			current,
+			currentRep,
+			currentSet,
+			status,
 		} = this.state;
 		return (
 			<div>
 				<span>
 					Status:
-					{current}
+					{status}
 				</span>
 				<Countdown time={time} />
 				<span>
 					Reps:
-					{ Math.min( repCount + 1, 6 ) } / 6
+					{ currentRep } / { this.workout.reps }
 				</span>
 				<span>
 					Sets:
-					{ Math.min( setCount + 1, 3 ) } / 3
+					{ currentSet } / { this.workout.sets }
 				</span>
 				<button type="button" onClick={this.countTimeDifference}>Start</button>
 				<button type="button" onClick={this.pauseTimer}>Pause</button>
-				<button type="button" onClick={() => this.goToSet( setCount - 1 )}>Previous set</button>
-				<button type="button" onClick={() => this.goToSet( setCount + 1 )}>Next set</button>
-				<button type="button" onClick={() => this.goToRep( repCount - 1 )}>Previous rep</button>
-				<button type="button" onClick={() => this.goToRep( repCount + 1 )}>Next rep</button>
+				<button type="button" onClick={() => this.goToSet( currentSet - 1 )}>Previous set</button>
+				<button type="button" onClick={() => this.goToSet( currentSet + 1 )}>Next set</button>
+				<button type="button" onClick={() => this.goToRep( currentRep - 1, true )}>Previous rep</button>
+				<button type="button" onClick={() => this.goToRep( currentRep + 1, true )}>Next rep</button>
 			</div>
 		);
 	}
