@@ -15,11 +15,32 @@ class App extends React.PureComponent {
 			{
 				key: 'repeaters',
 				name: 'Repeaters',
+				readyTime: 5000,
 				sets: 3,
-				setsRestTime: 180,
-				repTime: 7,
-				repsRestTime: 3,
+				setsRestTime: 30000,
+				repTime: 4000,
+				repsRestTime: 6000,
 				reps: 6,
+			},
+			{
+				key: 'max-hang',
+				name: 'Max hang',
+				readyTime: 5000,
+				sets: 5,
+				setsRestTime: 60000,
+				repTime: 10000,
+				repsRestTime: 30000,
+				reps: 5,
+			},
+			{
+				key: 'bag',
+				name: 'Bag',
+				readyTime: 5000,
+				sets: 5,
+				setsRestTime: 60000,
+				repTime: 10000,
+				repsRestTime: 30000,
+				reps: 5,
 			},
 		];
 
@@ -32,18 +53,11 @@ class App extends React.PureComponent {
 								<li>
 									<Link to="/">Home</Link>
 								</li>
+
 								<li>
 									<Link to="/workouts">Workouts</Link>
 								</li>
-								{
-									workoutTypes.map( ( workout ) => {
-										return (
-											<li key={workout.key}>
-												<Link to={`/workouts/${workout.key}`}>{ workout.name }</Link>
-											</li>
-										);
-									} )
-								}
+
 								<li>
 									<Link to="/sessions">Sessions</Link>
 								</li>
@@ -53,13 +67,28 @@ class App extends React.PureComponent {
 						{/* A <Switch> looks through its children <Route>s and
 			renders the first one that matches the current URL. */}
 						<Switch>
+							{ workoutTypes.map( ( workout ) => (
+								<Route path={`/workouts/${workout.key}`} key={workout.key}>
+									<Workout {...workout} />
+								</Route>
+							) ) }
+
 							<Route path="/workouts">
-								<Workout
-								/>
+								<ul>
+									{
+										workoutTypes.map( ( workout ) => (
+											<li key={workout.key}>
+												<Link to={`/workouts/${workout.key}`}>{ workout.name }</Link>
+											</li>
+										) )
+									}
+								</ul>
 							</Route>
+
 							<Route path="/sessions">
 								<Sessions />
 							</Route>
+
 							<Route path="/">
 								Home
 							</Route>

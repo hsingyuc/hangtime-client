@@ -4,21 +4,21 @@ import Countdown from './Countdown';
 class Workout extends React.Component {
 	constructor( props ) {
 		super( props );
-		this.workout = {
-			key: 'repeaters',
-			name: 'Repeaters',
-			readyTime: 5000,
-			sets: 2,
-			setsRestTime: 7000,
-			repTime: 2000,
-			repsRestTime: 3000,
-			reps: 2,
-		};
+		// this.workout = {
+		// 	key: 'repeaters',
+		// 	name: 'Repeaters',
+		// 	readyTime: 5000,
+		// 	sets: 2,
+		// 	setsRestTime: 7000,
+		// 	repTime: 2000,
+		// 	repsRestTime: 3000,
+		// 	reps: 2,
+		// };
 		this.state = {
 			currentRep: 1,
 			currentSet: 1,
 			status: 'ready',
-			time: this.workout.readyTime,
+			time: props.readyTime,
 			timerTimestamp: null,
 		};
 		this.timeout = null;
@@ -76,7 +76,7 @@ class Workout extends React.Component {
 	}
 
 	goToRep( rep, addReady = false ) {
-		const { readyTime, reps, repTime } = this.workout;
+		const { readyTime, reps, repTime } = this.props;
 		const { currentSet } = this.state;
 
 		if ( rep < 1 ) {
@@ -96,7 +96,7 @@ class Workout extends React.Component {
 	}
 
 	goToSet( set ) {
-		const { readyTime, sets } = this.workout;
+		const { readyTime, sets } = this.props;
 
 		if ( set < 1 ) {
 			return;
@@ -118,7 +118,7 @@ class Workout extends React.Component {
 	}
 
 	goToRest() {
-		const { reps, repsRestTime, sets, setsRestTime } = this.workout;
+		const { reps, repsRestTime, sets, setsRestTime } = this.props;
 		const { currentRep, currentSet } = this.state;
 
 		if ( currentRep === reps && currentSet === sets ) {
@@ -149,6 +149,7 @@ class Workout extends React.Component {
 			currentSet,
 			status,
 		} = this.state;
+		const { reps, sets } = this.props;
 		return (
 			<div>
 				<span>
@@ -158,11 +159,11 @@ class Workout extends React.Component {
 				<Countdown time={time} />
 				<span>
 					Reps:
-					{ currentRep } / { this.workout.reps }
+					{ currentRep } / { reps }
 				</span>
 				<span>
 					Sets:
-					{ currentSet } / { this.workout.sets }
+					{ currentSet } / { sets }
 				</span>
 				<button type="button" onClick={this.countTimeDifference}>Start</button>
 				<button type="button" onClick={this.pauseTimer}>Pause</button>
