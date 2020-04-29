@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import Sessions from './Sessions';
 import Workout from './Workout';
+import Login from './Login';
 
 class App extends React.PureComponent {
 	render() {
@@ -51,6 +52,10 @@ class App extends React.PureComponent {
 						<nav>
 							<ul>
 								<li>
+									<Link to="/login">Login</Link>
+								</li>
+
+								<li>
 									<Link to="/">Home</Link>
 								</li>
 
@@ -67,6 +72,7 @@ class App extends React.PureComponent {
 						{/* A <Switch> looks through its children <Route>s and
 			renders the first one that matches the current URL. */}
 						<Switch>
+
 							{ workoutTypes.map( ( workout ) => (
 								<Route path={`/workouts/${workout.key}`} key={workout.key}>
 									<Workout {...workout} />
@@ -89,9 +95,14 @@ class App extends React.PureComponent {
 								<Sessions />
 							</Route>
 
+							<Route path="/login">
+								<Login />
+							</Route>
+
 							<Route path="/">
 								Home
 							</Route>
+
 						</Switch>
 					</div>
 				</Router>
