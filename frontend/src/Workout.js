@@ -1,19 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Countdown from './Countdown';
 
 class Workout extends React.Component {
 	constructor( props ) {
 		super( props );
-		// this.workout = {
-		// 	key: 'repeaters',
-		// 	name: 'Repeaters',
-		// 	readyTime: 5000,
-		// 	sets: 2,
-		// 	setsRestTime: 7000,
-		// 	repTime: 2000,
-		// 	repsRestTime: 3000,
-		// 	reps: 2,
-		// };
 		this.state = {
 			currentRep: 1,
 			currentSet: 1,
@@ -33,27 +24,22 @@ class Workout extends React.Component {
 			currentRep,
 		} = this.state;
 
-		// Workout is finished.
 		if ( status === 'complete' ) {
 			return;
 		}
 
 		if ( time === 0 ) {
-			// Start workout.
 			if ( status === 'ready' ) {
 				this.goToRep( currentRep );
 				return;
 			}
 
-			// Finished rest, start rep.
-			if ( status === 'rest' ) {
-				this.goToRep( currentRep + 1 );
-				return;
-			}
-
-			// Start a rest period.
 			if ( status === 'rep' ) {
 				this.goToRest();
+				return;
+			}
+			if ( status === 'rest' ) {
+				this.goToRep( currentRep + 1 );
 			}
 		}
 	}
@@ -175,5 +161,14 @@ class Workout extends React.Component {
 		);
 	}
 }
+
+Workout.propTypes = {
+	readyTime: PropTypes.number.isRequired,
+	reps: PropTypes.number.isRequired,
+	repTime: PropTypes.number.isRequired,
+	repsRestTime: PropTypes.number.isRequired,
+	sets: PropTypes.number.isRequired,
+	setsRestTime: PropTypes.number.isRequired,
+};
 
 export default Workout;
