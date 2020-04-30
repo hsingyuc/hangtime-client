@@ -2,10 +2,11 @@ const jwt = require( 'jsonwebtoken' );
 
 export const authenticate = ( req, res, next ) => {
 	const authHeader = req.headers.authorization;
+	const token = authHeader
+		? authHeader.split( ' ' )[1]
+		: req.cookies.token;
 
-	if ( authHeader ) {
-		const token = authHeader.split( ' ' )[1];
-
+	if ( token ) {
 		jwt.verify( token, 'secret-to-update', ( err, data ) => {
 			if ( err ) {
 				return res.sendStatus( 403 );

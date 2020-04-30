@@ -13,7 +13,12 @@ class Sessions extends React.PureComponent {
 	}
 
 	async getSessions() {
-		const response = await fetch( 'http://localhost:8080/users/35/sessions' );
+		const response = await fetch(
+			'http://localhost:8080/users/35/sessions',
+			{
+				credentials: 'include',
+			},
+		);
 		const json = await response.json();
 		this.setState( { sessions: json.data } );
 	}

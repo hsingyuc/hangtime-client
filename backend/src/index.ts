@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
 import { Request, Response } from 'express';
 import { Routes } from './routes';
 
@@ -9,11 +10,14 @@ createConnection().then( async () => {
 	// create express app
 	const app = express();
 	app.use( ( req, res, next ) => {
-		res.header( 'Access-Control-Allow-Origin', '*' );
+		res.header( 'Access-Control-Allow-Credentials', 'true' );
+		// @todo This address should be changed to be dynamic.
+		res.header( 'Access-Control-Allow-Origin', 'http://localhost:3001' );
 		res.header( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept' );
 		next();
 	} );
 	app.use( bodyParser.json() );
+	app.use( cookieParser() );
 
 	// register express routes from defined application routes
 	Routes.forEach( ( route ) => {

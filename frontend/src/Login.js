@@ -25,11 +25,12 @@ class Login extends React.PureComponent {
 			email,
 			password,
 		};
-		const response = await fetch( 'http://localhost:8080/users/auth', {
+		const response = await fetch( 'http://localhost:8080/auth/login', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
+			credentials: 'include',
 			body: JSON.stringify( data ),
 		} );
 		const json = await response.json();
