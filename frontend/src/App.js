@@ -9,8 +9,22 @@ import {
 import Sessions from './Sessions';
 import Workout from './Workout';
 import Login from './Login';
+import withAuth from './withAuth';
 
 class App extends React.PureComponent {
+	static logOut() {
+		fetch(
+			'http://localhost:8080/auth/logout',
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				credentials: 'include',
+			},
+		);
+	}
+
 	render() {
 		const workoutTypes = [
 			{
@@ -66,6 +80,9 @@ class App extends React.PureComponent {
 								<li>
 									<Link to="/sessions">Sessions</Link>
 								</li>
+								<li>
+									<button type="button" onClick={App.logOut}>Log out</button>
+								</li>
 							</ul>
 						</nav>
 
@@ -91,9 +108,7 @@ class App extends React.PureComponent {
 								</ul>
 							</Route>
 
-							<Route path="/sessions">
-								<Sessions />
-							</Route>
+							<Route path="/sessions" component={withAuth( Sessions )} />
 
 							<Route path="/login">
 								<Login />
