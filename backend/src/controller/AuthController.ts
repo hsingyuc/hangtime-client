@@ -35,4 +35,12 @@ export default class AuthController {
 		response.clearCookie( 'token' );
 		return { data: 'Logged out successfully' };
 	}
+
+	async check( request: Request, response: Response ) {
+		const user = await this.userRepository.findOne( request.user.id );
+		// Refresh token.
+		const token = jwt.sign( { user: { id: user.id } }, 'secret-to-update', { expiresIn: '20160m' } );
+		response.cookie( 'token', token, { httpOnly: true } );
+		return { data: { user: { user: user.id, email: user.email } } };
+	}
 }

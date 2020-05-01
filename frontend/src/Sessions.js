@@ -14,6 +14,7 @@ class Sessions extends React.PureComponent {
 
 	async getSessions() {
 		const response = await fetch(
+			// @todo this should check the current user ID.
 			'http://localhost:8080/users/35/sessions',
 			{
 				credentials: 'include',

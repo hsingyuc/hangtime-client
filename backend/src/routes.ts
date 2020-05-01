@@ -15,6 +15,12 @@ export const Routes = [{
 	action: 'login',
 }, {
 	method: 'post',
+	route: '/auth/check',
+	controller: AuthController,
+	middleware: authenticate,
+	action: 'check',
+}, {
+	method: 'post',
 	route: '/auth/logout',
 	controller: AuthController,
 	action: 'logout',
