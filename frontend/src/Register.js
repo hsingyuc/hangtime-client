@@ -2,20 +2,15 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import actions from './actions';
 
-class Login extends React.Component {
+class Login extends React.PureComponent {
 	constructor( props ) {
 		super( props );
 		this.state = {
 			email: '',
 			password: '',
-			error: '',
 		};
 		this.handleSubmit = this.handleSubmit.bind( this );
 	}
@@ -27,7 +22,12 @@ class Login extends React.Component {
 			email,
 			password,
 		};
-		const response = await fetch( 'http://localhost:8080/auth/login', {
+
+		if ( !email.length || !password.length ) {
+			return;
+		}
+
+		const response = await fetch( 'http://localhost:8080/auth/register', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -36,22 +36,10 @@ class Login extends React.Component {
 			body: JSON.stringify( data ),
 		} );
 		const json = await response.json();
-		const { setCurrentUser } = this.props;
-		if ( json.error ) {
-			this.setState( { error: json.error } );
-		} else if ( json.data ) {
-			setCurrentUser( json.data.user );
-		}
+		console.log(json);
 	}
 
 	render() {
-		const { error } = this.state;
-		const { currentUser } = this.props;
-
-		if ( currentUser ) {
-			return <Redirect to="/" />;
-		}
-
 		return (
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
@@ -68,7 +56,6 @@ class Login extends React.Component {
 							autoComplete="email"
 							autoFocus
 							onChange={ (event) => this.setState({ email: event.target.value }) }
-							helperText={ error }
 						/>
 						<TextField
 							variant="outlined"
@@ -81,7 +68,6 @@ class Login extends React.Component {
 							id="password"
 							autoComplete="current-password"
 							onChange={ (event) => this.setState({ password: event.target.value }) }
-							helperText={ error }
 						/>
 						<Button
 							onClick={ this.handleSubmit }
@@ -90,16 +76,8 @@ class Login extends React.Component {
 							variant="contained"
 							color="primary"
 						>
-							Sign In
+							Register
 						</Button>
-						{/* <Grid container>
-							<Grid item> */}
-								{/* <Link href="#" variant="body2"> */}
-						<Link href="/register">
-							Don't have an account? Sign Up
-						</Link>
-							{/* </Grid>
-						</Grid> */}
 					</form>
 				</div>
 			</Container>
@@ -107,22 +85,4 @@ class Login extends React.Component {
 	}
 }
 
-Login.propTypes = {
-	setCurrentUser: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = ( state ) => ( {
-	currentUser: state.currentUser,
-	isAuthRequesting: state.isAuthRequesting,
-} );
-
-const mapDispatchToProps = ( dispatch ) => ( {
-	setAuthRequesting: ( value ) => {
-		dispatch( actions.setAuthRequesting( value ) );
-	},
-	setCurrentUser: ( user ) => {
-		dispatch( actions.setCurrentUser( user ) );
-	},
-} );
-
-export default connect( mapStateToProps, mapDispatchToProps )( Login );
+export default Login;

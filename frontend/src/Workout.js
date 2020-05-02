@@ -15,6 +15,7 @@ class Workout extends React.Component {
 		this.timeout = null;
 		this.countTimeDifference = this.countTimeDifference.bind( this );
 		this.pauseTimer = this.pauseTimer.bind( this );
+		this.saveSession = this.saveSession.bind( this );
 	}
 
 	componentDidUpdate() {
@@ -42,6 +43,21 @@ class Workout extends React.Component {
 				this.goToRep( currentRep + 1 );
 			}
 		}
+	}
+
+	async saveSession( isSuccess ) {
+		const data = { ...this.props, isSuccess };
+		console.log(data);
+		const response = await fetch( 'http://localhost:8080/sessions', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
+			body: JSON.stringify( data ),
+		} );
+		const json = await response.json();
+		console.log(json);
 	}
 
 	countTimeDifference() {
@@ -104,7 +120,9 @@ class Workout extends React.Component {
 	}
 
 	goToRest() {
-		const { reps, repsRestTime, sets, setsRestTime } = this.props;
+		const {
+			reps, repsRestTime, sets, setsRestTime,
+		} = this.props;
 		const { currentRep, currentSet } = this.state;
 
 		if ( currentRep === reps && currentSet === sets ) {
@@ -145,14 +163,22 @@ class Workout extends React.Component {
 				<Countdown time={time} />
 				<span>
 					Reps:
-					{ currentRep } / { reps }
+					{ currentRep }
+					{' '}
+					/
+					{ reps }
 				</span>
 				<span>
 					Sets:
-					{ currentSet } / { sets }
+					{ currentSet }
+					{' '}
+					/
+					{ sets }
 				</span>
+				<button type="submit" onClick={() => this.saveSession( true )}>Success</button>
 				<button type="button" onClick={this.countTimeDifference}>Start</button>
 				<button type="button" onClick={this.pauseTimer}>Pause</button>
+				<button type="submit" onClick={() => this.saveSession( false )}>Fail</button>
 				<button type="button" onClick={() => this.goToSet( currentSet - 1 )}>Previous set</button>
 				<button type="button" onClick={() => this.goToSet( currentSet + 1 )}>Next set</button>
 				<button type="button" onClick={() => this.goToRep( currentRep - 1, true )}>Previous rep</button>
