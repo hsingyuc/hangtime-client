@@ -11,11 +11,11 @@ class Workout extends React.Component {
 			status: 'ready',
 			time: props.readyTime,
 			timerTimestamp: null,
-			sessions: [],
 		};
 		this.timeout = null;
 		this.countTimeDifference = this.countTimeDifference.bind( this );
 		this.pauseTimer = this.pauseTimer.bind( this );
+		this.saveSession = this.saveSession.bind( this );
 	}
 
 	componentDidUpdate() {
@@ -45,20 +45,19 @@ class Workout extends React.Component {
 		}
 	}
 
-	setSessions() {
-		const { sessions } = this.state;
-		fetch(
-			'http://localhost:8080/users/35/sessions',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-
-				},
-				credentials: 'include',
+	async saveSession( isSuccess ) {
+		const data = { ...this.props, isSuccess };
+		console.log(data);
+		const response = await fetch( 'http://localhost:8080/sessions', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
 			},
-		);
-		this.setState( { sessions } );
+			credentials: 'include',
+			body: JSON.stringify( data ),
+		} );
+		const json = await response.json();
+		console.log(json);
 	}
 
 	countTimeDifference() {
@@ -176,10 +175,10 @@ class Workout extends React.Component {
 					/
 					{ sets }
 				</span>
-				<button type="submit" onClick={this.setSessions}>Success</button>
+				<button type="submit" onClick={() => this.saveSession( true )}>Success</button>
 				<button type="button" onClick={this.countTimeDifference}>Start</button>
 				<button type="button" onClick={this.pauseTimer}>Pause</button>
-				<button type="submit" onClick={this.setSessions}>Fail</button>
+				<button type="submit" onClick={() => this.saveSession( false )}>Fail</button>
 				<button type="button" onClick={() => this.goToSet( currentSet - 1 )}>Previous set</button>
 				<button type="button" onClick={() => this.goToSet( currentSet + 1 )}>Next set</button>
 				<button type="button" onClick={() => this.goToRep( currentRep - 1, true )}>Previous rep</button>

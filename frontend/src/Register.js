@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
+import { Redirect } from 'react-router-dom';
 
 class Login extends React.PureComponent {
 	constructor( props ) {
@@ -21,6 +22,11 @@ class Login extends React.PureComponent {
 			email,
 			password,
 		};
+
+		if ( !email.length || !password.length ) {
+			return;
+		}
+
 		const response = await fetch( 'http://localhost:8080/auth/register', {
 			method: 'POST',
 			headers: {

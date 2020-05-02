@@ -1,51 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default function withAuth( ComponentToProtect ) {
-	return class extends Component {
-		constructor() {
-			super();
-			this.state = {
-				loading: true,
-				redirect: false,
-			};
-		}
-
-		componentDidMount() {
-			fetch(
-				'http://localhost:8080/auth/check',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					credentials: 'include',
-				},
-			)
-				.then( ( res ) => {
-					if ( res.status === 200 ) {
-						this.setState( { loading: false } );
-					} else {
-						const error = new Error( res.error );
-						throw error;
-					}
-				} )
-				.catch( ( err ) => {
-					console.error( err );
-					this.setState( { loading: false, redirect: true } );
-				} );
-		}
-
-
+function withAuth( ComponentToProtect ) {
+	return class extends React.PureComponent {
 		render() {
-			const { loading, redirect } = this.state;
-			if ( loading ) {
-				return null;
+			const { currentUser, isAuthRequesting } = this.props;
+			if ( isAuthRequesting ) {
+				return 'Loading...';
 			}
-			if ( redirect ) {
+			if ( !currentUser ) {
 				return <Redirect to="/login" />;
 			}
 			return <ComponentToProtect {...this.props} />;
 		}
 	};
 }
+
+withAuth.propTypes = {
+	currentUser: PropTypes.string.isRequired,
+	isAuthRequesting: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = ( state ) => ( {
+	currentUser: state.currentUser,
+	isAuthRequesting: state.isAuthRequesting,
+} );
+
+export default compose(
+	connect( mapStateToProps ),
+	withAuth,
+);

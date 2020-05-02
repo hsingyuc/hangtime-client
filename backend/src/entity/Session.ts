@@ -67,4 +67,7 @@ export class Session {
 
 	@ManyToOne( () => User, ( user ) => user.sessions )
 	user: User;
+
+	@Column()
+	isSuccess: boolean;
 }

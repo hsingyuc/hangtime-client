@@ -6,15 +6,23 @@ import {
 	Route,
 	Link,
 } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Sessions from './Sessions';
 import Workout from './Workout';
 import Login from './Login';
 import withAuth from './withAuth';
+import LogoutButton from './LogoutButton';
+import WorkoutTypes from './WorkoutTypes';
+import actions from './actions';
+import Register from './Register';
 
-class App extends React.PureComponent {
-	static logOut() {
+class App extends React.Component {
+	async componentDidMount() {
+		const { setAuthRequesting, setCurrentUser } = this.props;
+
 		fetch(
-			'http://localhost:8080/auth/logout',
+			'http://localhost:8080/auth/check',
 			{
 				method: 'POST',
 				headers: {
@@ -22,101 +30,71 @@ class App extends React.PureComponent {
 				},
 				credentials: 'include',
 			},
-		);
+		)
+			.then( async ( res ) => {
+				const json = await res.json();
+				if ( res.status === 200 ) {
+					setCurrentUser( json.data.user );
+					setAuthRequesting( false );
+				} else {
+					setAuthRequesting( false );
+				}
+			} )
+			.catch( () => {
+				setAuthRequesting( false );
+			} );
 	}
 
 	render() {
-		const workoutTypes = [
-			{
-				key: 'repeaters',
-				name: 'Repeaters',
-				readyTime: 5000,
-				sets: 3,
-				setsRestTime: 30000,
-				repTime: 4000,
-				repsRestTime: 6000,
-				reps: 6,
-			},
-			{
-				key: 'max-hang',
-				name: 'Max hang',
-				readyTime: 5000,
-				sets: 5,
-				setsRestTime: 60000,
-				repTime: 10000,
-				repsRestTime: 30000,
-				reps: 5,
-			},
-			{
-				key: 'bag',
-				name: 'Bag',
-				readyTime: 5000,
-				sets: 5,
-				setsRestTime: 60000,
-				repTime: 10000,
-				repsRestTime: 30000,
-				reps: 5,
-			},
-		];
-
+		const { currentUser } = this.props;
 		return (
 			<div>
 				<Router>
 					<div>
-						<nav>
-							<ul>
-								<li>
-									<Link to="/login">Login</Link>
-								</li>
+						{ currentUser
+							&& (
+								<nav>
+									<ul>
+										<li>
+											<Link to="/">Workouts</Link>
+										</li>
 
-								<li>
-									<Link to="/">Home</Link>
-								</li>
-
-								<li>
-									<Link to="/workouts">Workouts</Link>
-								</li>
-
-								<li>
-									<Link to="/sessions">Sessions</Link>
-								</li>
-								<li>
-									<button type="button" onClick={App.logOut}>Log out</button>
-								</li>
-							</ul>
-						</nav>
+										<li>
+											<Link to="/history">History</Link>
+										</li>
+										<li>
+											<LogoutButton />
+										</li>
+									</ul>
+								</nav>
+							)}
 
 						{/* A <Switch> looks through its children <Route>s and
 			renders the first one that matches the current URL. */}
 						<Switch>
 
-							{ workoutTypes.map( ( workout ) => (
-								<Route path={`/workouts/${workout.key}`} key={workout.key}>
-									<Workout {...workout} />
-								</Route>
+							{ WorkoutTypes.getTypes().map( ( workout ) => (
+								<Route
+									path={`/workouts/${workout.key}`}
+									key={workout.key}
+									component={() => {
+										const WrappedWorkout = withAuth( Workout );
+										return <WrappedWorkout {...workout} />;
+									}}
+								/>
 							) ) }
 
-							<Route path="/workouts">
-								<ul>
-									{
-										workoutTypes.map( ( workout ) => (
-											<li key={workout.key}>
-												<Link to={`/workouts/${workout.key}`}>{ workout.name }</Link>
-											</li>
-										) )
-									}
-								</ul>
-							</Route>
-
-							<Route path="/sessions" component={withAuth( Sessions )} />
+							<Route path="/history" component={withAuth( Sessions )} />
 
 							<Route path="/login">
 								<Login />
 							</Route>
 
-							<Route path="/">
-								Home
+							<Route path="/register">
+								<Register />
 							</Route>
+
+							<Route path="/" component={withAuth( WorkoutTypes )} />
 
 						</Switch>
 					</div>
@@ -126,4 +104,23 @@ class App extends React.PureComponent {
 	}
 }
 
-export default App;
+const mapStateToProps = ( state ) => ( {
+	currentUser: state.currentUser,
+	isAuthRequesting: state.isAuthRequesting,
+} );
+
+const mapDispatchToProps = ( dispatch ) => ( {
+	setAuthRequesting: ( value ) => {
+		dispatch( actions.setAuthRequesting( value ) );
+	},
+	setCurrentUser: ( user ) => {
+		dispatch( actions.setCurrentUser( user ) );
+	},
+} );
+
+App.propTypes = {
+	setAuthRequesting: PropTypes.func.isRequired,
+	setCurrentUser: PropTypes.func.isRequired,
+};
+
+export default connect( mapStateToProps, mapDispatchToProps )( App );
