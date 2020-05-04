@@ -9,8 +9,25 @@ export default class AuthController {
 	private userRepository = getRepository( User );
 
 	async register( request: Request ) {
-		const user = this.userRepository.create( request.body );
-		return this.userRepository.save( user );
+		const { email, password } = request.body;
+
+		const errors = {} as any;
+
+		if ( !email.length ) {
+			errors.email = 'Email is required';
+		}
+
+		if ( !password.length ) {
+			errors.password = 'Password is required';
+		}
+
+		if ( Object.keys( errors ).length ) {
+			return { error: { errors } };
+		}
+
+		const userObject = this.userRepository.create( request.body );
+		const user = await this.userRepository.save( userObject );
+		return { data: { user } };
 	}
 
 	async login( request: Request, response: Response ) {
@@ -25,7 +42,7 @@ export default class AuthController {
 		if ( isValid ) {
 			const token = jwt.sign( { user: { id: user.id } }, 'secret-to-update', { expiresIn: '20160m' } );
 			response.cookie( 'token', token, { httpOnly: true } );
-			return { data: { user: { user: user.id, email: user.email } } };
+			return { data: { user: { id: user.id, email: user.email } } };
 		}
 
 		return { error: 'Password not valid!' };
@@ -41,6 +58,6 @@ export default class AuthController {
 		// Refresh token.
 		const token = jwt.sign( { user: { id: user.id } }, 'secret-to-update', { expiresIn: '20160m' } );
 		response.cookie( 'token', token, { httpOnly: true } );
-		return { data: { user: { user: user.id, email: user.email } } };
+		return { data: { user: { id: user.id, email: user.email } } };
 	}
 }
