@@ -7,42 +7,30 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from './actions';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 class Register extends React.PureComponent {
 	constructor( props ) {
 		super( props );
-		this.state = {
-			email: '',
-			password: '',
-			hasSubmitted: false,
-			errors: {},
-		};
-		this.handleSubmit = this.handleSubmit.bind( this );
+		this.onSubmit = this.onSubmit.bind( this );
 	}
 
-	async handleSubmit( event ) {
-		event.preventDefault();
-		const { email, password } = this.state;
-		const data = {
-			email,
-			password,
-		};
-
+	static validate( values ) {
 		const errors = {};
-		if ( !/\S+@\S+\.\S+/.test( email ) ) {
-			errors.email = 'Not a valid email';
-		}
-		if ( !email.length ) {
+		if ( !values.email ) {
 			errors.email = 'Email is required';
+		} else if ( !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email) ) {
+			errors.email = 'Invalid email address';
 		}
-		if ( !password.length ) {
+		if ( !values.password.length ) {
 			errors.password = 'Password is required';
 		}
 
-		this.setState( { errors } );
-		if ( Object.keys( errors ).length ) {
-			return;
-		}
+		return errors;
+	}
+
+	async onSubmit( values ) {
+		const { email, password } = values;
 
 		const response = await fetch( 'http://localhost:8080/auth/register', {
 			method: 'POST',
@@ -50,21 +38,19 @@ class Register extends React.PureComponent {
 				'Content-Type': 'application/json',
 			},
 			credentials: 'include',
-			body: JSON.stringify( data ),
+			body: JSON.stringify( {
+				email,
+				password,
+			} ),
 		} );
 		const json = await response.json();
 		const { setCurrentUser } = this.props;
-		if ( json.error ) {
-			this.setState( { errors: json.error.errors } );
-			// this.setState( { hasSubmitted: false } );
-		} else if ( json.data ) {
-			// setCurrentUser( json.data.user );
+		if ( json.data ) {
 			setCurrentUser( json.data.user.id );
 		}
 	}
 
 	render() {
-		const { email, password, hasSubmitted, errors } = this.state;
 		const { currentUser } = this.props;
 
 		if ( currentUser ) {
@@ -74,45 +60,65 @@ class Register extends React.PureComponent {
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<div>
-					<form noValidate>
-						<TextField
-							error={ errors.email }
-							variant="outlined"
-							margin="normal"
-							required
-							fullWidth
-							id="email"
-							label="Email Address"
-							name="email"
-							autoComplete="email"
-							autoFocus
-							onChange={ (event) => this.setState({ email: event.target.value }) }
-							helperText={ errors.email }
-						/>
-						<TextField
-							error={ errors.password }
-							variant="outlined"
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label="Password"
-							type="password"
-							id="password"
-							autoComplete="current-password"
-							onChange={ (event) => this.setState({ password: event.target.value }) }
-							helperText={ errors.password }
-						/>
-						<Button
-							onClick={ this.handleSubmit }
-							type="submit"
-							fullWidth
-							variant="contained"
-							color="primary"
-						>
-							Register
-						</Button>
-					</form>
+					<Formik
+						initialValues={ { email: '', password: '' } }
+						validate={Register.validate}
+						onSubmit={this.onSubmit}
+					>
+						{( {
+							values,
+							errors,
+							touched,
+							handleChange,
+							handleBlur,
+							handleSubmit,
+						} ) => (
+							<form noValidate>
+								<TextField
+									error={ touched.email && errors.email }
+									variant="outlined"
+									margin="normal"
+									required
+									fullWidth
+									id="email"
+									label="Email Address"
+									name="email"
+									autoComplete="email"
+									autoFocus
+									value={ values.email }
+									onChange={handleChange}
+									onBlur={handleBlur}
+									helperText={ touched.email && errors.email }
+								/>
+								<TextField
+									error={ touched.password && errors.password }
+									variant="outlined"
+									margin="normal"
+									required
+									fullWidth
+									name="password"
+									label="Password"
+									type="password"
+									id="password"
+									autoComplete="current-password"
+									value={ values.password }
+									onChange={handleChange}
+									onBlur={handleBlur}
+									helperText={ touched.password && errors.password }
+								/>
+								<Button
+									onClick={ handleSubmit }
+									type="submit"
+									fullWidth
+									variant="contained"
+									color="primary"
+								>
+									Register
+								</Button>
+							</form>
+						)}
+					</Formik>
+
 				</div>
 			</Container>
 		);
