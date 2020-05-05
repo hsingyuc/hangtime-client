@@ -18,6 +18,7 @@ export default class AuthController {
 		}
 
 		if ( !email.length ) {
+			return { error: { errors: { email: 'Email is required' } } };
 			errors.email = 'Email is required';
 		}
 
@@ -38,7 +39,13 @@ export default class AuthController {
 		const user = await this.userRepository.findOne( { email: request.body.email } );
 
 		if ( !user ) {
-			return { error: 'User not found!' };
+			return {
+				error: {
+					errors: {
+						email: 'No user found',
+					},
+				},
+			};
 		}
 
 		const isValid = bcrypt.compareSync( request.body.password, user.password );
@@ -49,10 +56,10 @@ export default class AuthController {
 			return { data: { user: { id: user.id, email: user.email } } };
 		}
 
-		return { error: 'Password not valid!' };
+		return { error: { errors: { password: 'Password not valid!' } } };
 	}
 
-	static async logout( response: Response ) {
+	async logout( request: Request, response: Response ) {
 		response.clearCookie( 'token' );
 		return { data: 'Logged out successfully' };
 	}

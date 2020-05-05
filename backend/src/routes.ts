@@ -23,6 +23,7 @@ export const Routes = [{
 	method: 'post',
 	route: '/auth/logout',
 	controller: AuthController,
+	middleware: authenticate,
 	action: 'logout',
 }, {
 	method: 'get',

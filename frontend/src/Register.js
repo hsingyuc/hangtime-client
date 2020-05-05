@@ -129,7 +129,7 @@ class Register extends React.PureComponent {
 
 Register.propTypes = {
 	setCurrentUser: PropTypes.func.isRequired,
-	currentUser: PropTypes.objectOf( PropTypes.object ).isRequired,
+	currentUser: PropTypes.instanceOf( Object ).isRequired,
 };
 
 const mapStateToProps = ( state ) => ( {
