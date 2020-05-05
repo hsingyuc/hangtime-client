@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class Sessions extends React.PureComponent {
 	constructor( props ) {
@@ -13,9 +15,9 @@ class Sessions extends React.PureComponent {
 	}
 
 	async getSessions() {
+		const { currentUser } = this.props;
 		const response = await fetch(
-			// @todo this should check the current user ID.
-			'http://localhost:8080/users/35/sessions',
+			`http://localhost:8080/users/${currentUser.id}/sessions`,
 			{
 				credentials: 'include',
 			},
@@ -50,4 +52,12 @@ class Sessions extends React.PureComponent {
 	}
 }
 
-export default Sessions;
+Sessions.propTypes = {
+	currentUser: PropTypes.instanceOf( Object ).isRequired,
+};
+const mapStateToProps = ( state ) => ( {
+	currentUser: state.currentUser,
+	isAuthRequesting: state.isAuthRequesting,
+} );
+
+export default connect( mapStateToProps )( Sessions );
