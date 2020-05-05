@@ -10,8 +10,12 @@ export default class AuthController {
 
 	async register( request: Request ) {
 		const { email, password } = request.body;
-
 		const errors = {} as any;
+
+		const userEmail = await this.userRepository.findOne( { email } );
+		if ( userEmail ) {
+			errors.email = 'This email is already registered';
+		}
 
 		if ( !email.length ) {
 			errors.email = 'Email is required';
@@ -48,7 +52,7 @@ export default class AuthController {
 		return { error: 'Password not valid!' };
 	}
 
-	async logout( request: Request, response: Response ) {
+	static async logout( response: Response ) {
 		response.clearCookie( 'token' );
 		return { data: 'Logged out successfully' };
 	}

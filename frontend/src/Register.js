@@ -6,15 +6,10 @@ import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Formik } from 'formik';
 import actions from './actions';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 class Register extends React.PureComponent {
-	constructor( props ) {
-		super( props );
-		this.onSubmit = this.onSubmit.bind( this );
-	}
-
 	static validate( values ) {
 		const errors = {};
 		if ( !values.email ) {
@@ -29,7 +24,12 @@ class Register extends React.PureComponent {
 		return errors;
 	}
 
-	async onSubmit( values ) {
+	constructor( props ) {
+		super( props );
+		this.onSubmit = this.onSubmit.bind( this );
+	}
+
+	async onSubmit( values, { setErrors } ) {
 		const { email, password } = values;
 
 		const response = await fetch( 'http://localhost:8080/auth/register', {
@@ -45,8 +45,10 @@ class Register extends React.PureComponent {
 		} );
 		const json = await response.json();
 		const { setCurrentUser } = this.props;
-		if ( json.data ) {
-			setCurrentUser( json.data.user.id );
+		if ( json.error ) {
+			setErrors( json.error.errors );
+		} else if ( json.data ) {
+			setCurrentUser( json.data.user );
 		}
 	}
 
@@ -56,6 +58,7 @@ class Register extends React.PureComponent {
 		if ( currentUser ) {
 			return <Redirect to="/" />;
 		}
+
 		return (
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
@@ -118,7 +121,6 @@ class Register extends React.PureComponent {
 							</form>
 						)}
 					</Formik>
-
 				</div>
 			</Container>
 		);
@@ -130,6 +132,10 @@ Register.propTypes = {
 	currentUser: PropTypes.objectOf( PropTypes.object ).isRequired,
 };
 
+const mapStateToProps = ( state ) => ( {
+	currentUser: state.currentUser,
+} );
+
 const mapDispatchToProps = ( dispatch ) => ( {
 	setAuthRequesting: ( value ) => {
 		dispatch( actions.setAuthRequesting( value ) );
@@ -139,4 +145,4 @@ const mapDispatchToProps = ( dispatch ) => ( {
 	},
 } );
 
-export default connect( mapDispatchToProps )( Register );
+export default connect( mapStateToProps, mapDispatchToProps )( Register );
