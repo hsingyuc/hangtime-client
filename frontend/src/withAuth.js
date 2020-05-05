@@ -20,7 +20,7 @@ function withAuth( ComponentToProtect ) {
 }
 
 withAuth.propTypes = {
-	currentUser: PropTypes.string.isRequired,
+	currentUser: PropTypes.objectOf( PropTypes.object ).isRequired,
 	isAuthRequesting: PropTypes.bool.isRequired,
 };
 
