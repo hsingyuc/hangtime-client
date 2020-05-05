@@ -4,28 +4,33 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Formik } from 'formik';
+import actions from './actions';
 
-class Login extends React.PureComponent {
-	constructor( props ) {
-		super( props );
-		this.state = {
-			email: '',
-			password: '',
-		};
-		this.handleSubmit = this.handleSubmit.bind( this );
+class Register extends React.PureComponent {
+	static validate( values ) {
+		const errors = {};
+		if ( !values.email ) {
+			errors.email = 'Email is required';
+		} else if ( !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email) ) {
+			errors.email = 'Invalid email address';
+		}
+		if ( !values.password.length ) {
+			errors.password = 'Password is required';
+		}
+
+		return errors;
 	}
 
-	async handleSubmit( event ) {
-		event.preventDefault();
-		const { email, password } = this.state;
-		const data = {
-			email,
-			password,
-		};
+	constructor( props ) {
+		super( props );
+		this.onSubmit = this.onSubmit.bind( this );
+	}
 
-		if ( !email.length || !password.length ) {
-			return;
-		}
+	async onSubmit( values, { setErrors } ) {
+		const { email, password } = values;
 
 		const response = await fetch( 'http://localhost:8080/auth/register', {
 			method: 'POST',
@@ -33,56 +38,111 @@ class Login extends React.PureComponent {
 				'Content-Type': 'application/json',
 			},
 			credentials: 'include',
-			body: JSON.stringify( data ),
+			body: JSON.stringify( {
+				email,
+				password,
+			} ),
 		} );
 		const json = await response.json();
-		console.log(json);
+		const { setCurrentUser } = this.props;
+		if ( json.error ) {
+			setErrors( json.error.errors );
+		} else if ( json.data ) {
+			setCurrentUser( json.data.user );
+		}
 	}
 
 	render() {
+		const { currentUser } = this.props;
+
+		if ( currentUser ) {
+			return <Redirect to="/" />;
+		}
+
 		return (
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<div>
-					<form noValidate>
-						<TextField
-							variant="outlined"
-							margin="normal"
-							required
-							fullWidth
-							id="email"
-							label="Email Address"
-							name="email"
-							autoComplete="email"
-							autoFocus
-							onChange={ (event) => this.setState({ email: event.target.value }) }
-						/>
-						<TextField
-							variant="outlined"
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label="Password"
-							type="password"
-							id="password"
-							autoComplete="current-password"
-							onChange={ (event) => this.setState({ password: event.target.value }) }
-						/>
-						<Button
-							onClick={ this.handleSubmit }
-							type="submit"
-							fullWidth
-							variant="contained"
-							color="primary"
-						>
-							Register
-						</Button>
-					</form>
+					<Formik
+						initialValues={ { email: '', password: '' } }
+						validate={Register.validate}
+						onSubmit={this.onSubmit}
+					>
+						{( {
+							values,
+							errors,
+							touched,
+							handleChange,
+							handleBlur,
+							handleSubmit,
+						} ) => (
+							<form noValidate>
+								<TextField
+									error={ touched.email && errors.email }
+									variant="outlined"
+									margin="normal"
+									required
+									fullWidth
+									id="email"
+									label="Email Address"
+									name="email"
+									autoComplete="email"
+									autoFocus
+									value={ values.email }
+									onChange={handleChange}
+									onBlur={handleBlur}
+									helperText={ touched.email && errors.email }
+								/>
+								<TextField
+									error={ touched.password && errors.password }
+									variant="outlined"
+									margin="normal"
+									required
+									fullWidth
+									name="password"
+									label="Password"
+									type="password"
+									id="password"
+									autoComplete="current-password"
+									value={ values.password }
+									onChange={handleChange}
+									onBlur={handleBlur}
+									helperText={ touched.password && errors.password }
+								/>
+								<Button
+									onClick={ handleSubmit }
+									type="submit"
+									fullWidth
+									variant="contained"
+									color="primary"
+								>
+									Register
+								</Button>
+							</form>
+						)}
+					</Formik>
 				</div>
 			</Container>
 		);
 	}
 }
 
-export default Login;
+Register.propTypes = {
+	setCurrentUser: PropTypes.func.isRequired,
+	currentUser: PropTypes.objectOf( PropTypes.object ).isRequired,
+};
+
+const mapStateToProps = ( state ) => ( {
+	currentUser: state.currentUser,
+} );
+
+const mapDispatchToProps = ( dispatch ) => ( {
+	setAuthRequesting: ( value ) => {
+		dispatch( actions.setAuthRequesting( value ) );
+	},
+	setCurrentUser: ( user ) => {
+		dispatch( actions.setCurrentUser( user ) );
+	},
+} );
+
+export default connect( mapStateToProps, mapDispatchToProps )( Register );
