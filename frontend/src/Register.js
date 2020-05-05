@@ -78,7 +78,7 @@ class Register extends React.PureComponent {
 						} ) => (
 							<form noValidate>
 								<TextField
-									error={ touched.email && errors.email }
+									error={ errors.email && touched.email }
 									variant="outlined"
 									margin="normal"
 									required
@@ -94,7 +94,7 @@ class Register extends React.PureComponent {
 									helperText={ touched.email && errors.email }
 								/>
 								<TextField
-									error={ touched.password && errors.password }
+									error={ errors.email && touched.email }
 									variant="outlined"
 									margin="normal"
 									required
@@ -129,7 +129,7 @@ class Register extends React.PureComponent {
 
 Register.propTypes = {
 	setCurrentUser: PropTypes.func.isRequired,
-	currentUser: PropTypes.instanceOf( Object ).isRequired,
+	currentUser: PropTypes.instanceOf( Object ),
 };
 
 const mapStateToProps = ( state ) => ( {
