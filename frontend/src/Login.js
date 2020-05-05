@@ -76,15 +76,13 @@ class Login extends React.Component {
 									name="email"
 									autoComplete="email"
 									autoFocus
-									// onChange={ (event) => this.setState({ email: event.target.value }) }
-									// helperText={ error }
 									value={ values.email }
 									onChange={handleChange}
 									onBlur={handleBlur}
 									helperText={ touched.email && errors.email }
 								/>
 								<TextField
-									error={ touched.password && errors.password }
+									error={ errors.email && touched.email }
 									variant="outlined"
 									margin="normal"
 									required
@@ -94,8 +92,6 @@ class Login extends React.Component {
 									type="password"
 									id="password"
 									autoComplete="current-password"
-									// onChange={ (event) => this.setState({ password: event.target.value }) }
-									// helperText={ error }
 									value={ values.password }
 									onChange={handleChange}
 									onBlur={handleBlur}
