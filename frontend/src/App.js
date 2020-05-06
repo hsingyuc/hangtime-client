@@ -4,7 +4,6 @@ import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	Link,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,10 +11,10 @@ import Sessions from './Sessions';
 import Workout from './Workout';
 import Login from './Login';
 import withAuth from './withAuth';
-import LogoutButton from './LogoutButton';
 import WorkoutTypes from './WorkoutTypes';
 import actions from './actions';
 import Register from './Register';
+import Nav from './Nav';
 
 class App extends React.Component {
 	async componentDidMount() {
@@ -54,18 +53,7 @@ class App extends React.Component {
 						{ currentUser
 							&& (
 								<nav>
-									<ul>
-										<li>
-											<Link to="/">Workouts</Link>
-										</li>
-
-										<li>
-											<Link to="/history">History</Link>
-										</li>
-										<li>
-											<LogoutButton />
-										</li>
-									</ul>
+									<Nav />
 								</nav>
 							)}
 
@@ -121,6 +109,7 @@ const mapDispatchToProps = ( dispatch ) => ( {
 App.propTypes = {
 	setAuthRequesting: PropTypes.func.isRequired,
 	setCurrentUser: PropTypes.func.isRequired,
+	currentUser: PropTypes.instanceOf(Object),
 };
 
 export default connect( mapStateToProps, mapDispatchToProps )( App );
