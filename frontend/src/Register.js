@@ -7,6 +7,9 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Icon from '@material-ui/core/Icon';
 import actions from './actions';
 
 class Register extends React.PureComponent {
@@ -78,8 +81,12 @@ class Register extends React.PureComponent {
 						} ) => (
 							<form noValidate>
 								<TextField
+									InputProps={{
+										startAdornment: (
+										<AlternateEmailIcon />
+										),
+									}}
 									error={ errors.email && touched.email }
-									variant="outlined"
 									margin="normal"
 									required
 									fullWidth
@@ -94,8 +101,12 @@ class Register extends React.PureComponent {
 									helperText={ touched.email && errors.email }
 								/>
 								<TextField
+									InputProps={{
+										startAdornment: (
+										<LockOutlinedIcon />
+										),
+									}}
 									error={ errors.email && touched.email }
-									variant="outlined"
 									margin="normal"
 									required
 									fullWidth

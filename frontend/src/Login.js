@@ -8,6 +8,9 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import actions from './actions';
 
 class Login extends React.Component {
@@ -66,8 +69,12 @@ class Login extends React.Component {
 						} ) => (
 							<form noValidate>
 								<TextField
+									InputProps={{
+										startAdornment: (
+										<AlternateEmailIcon />
+										),
+									}}
 									error={ errors.email && touched.email }
-									variant="outlined"
 									margin="normal"
 									required
 									fullWidth
@@ -82,8 +89,12 @@ class Login extends React.Component {
 									helperText={ touched.email && errors.email }
 								/>
 								<TextField
+									InputProps={{
+										startAdornment: (
+										<LockOutlinedIcon />
+										),
+									}}
 									error={ errors.email && touched.email }
-									variant="outlined"
 									margin="normal"
 									required
 									fullWidth
@@ -103,6 +114,7 @@ class Login extends React.Component {
 									fullWidth
 									variant="contained"
 									color="primary"
+									endIcon={<ArrowBackIcon />}
 								>
 									Sign In
 								</Button>
