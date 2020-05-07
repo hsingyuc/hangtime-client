@@ -11,7 +11,7 @@ import Sessions from './Sessions';
 import Workout from './Workout';
 import Login from './Login';
 import withAuth from './withAuth';
-import WorkoutTypes from './WorkoutTypes';
+import Workouts from './Workouts';
 import actions from './actions';
 import Register from './Register';
 import Nav from './Nav';
@@ -61,10 +61,10 @@ class App extends React.Component {
 			renders the first one that matches the current URL. */}
 						<Switch>
 
-							{ WorkoutTypes.getTypes().map( ( workout ) => (
+							{ Workouts.getTypes().map( ( workout ) => (
 								<Route
-									path={`/workouts/${workout.key}`}
-									key={workout.key}
+									path={`/workouts/${workout.slug}`}
+									key={workout.slug}
 									component={() => {
 										const WrappedWorkout = withAuth( Workout );
 										return <WrappedWorkout {...workout} />;
@@ -82,7 +82,7 @@ class App extends React.Component {
 								<Register />
 							</Route>
 
-							<Route path="/" component={withAuth( WorkoutTypes )} />
+							<Route path="/" component={withAuth( Workouts )} />
 
 						</Switch>
 					</div>

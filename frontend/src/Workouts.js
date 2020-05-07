@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import WorkoutCard from './WorkoutCard';
 
-export default class WorkoutTypes extends React.PureComponent {
+export default class Workouts extends React.PureComponent {
 	static getTypes() {
 		return [
 			{
-				key: 'repeaters',
+				slug: 'repeaters',
 				name: 'Repeaters',
 				readyTime: 5000,
 				sets: 3,
@@ -15,7 +15,7 @@ export default class WorkoutTypes extends React.PureComponent {
 				reps: 6,
 			},
 			{
-				key: 'max-hang',
+				slug: 'max-hang',
 				name: 'Max hang',
 				readyTime: 5000,
 				sets: 5,
@@ -25,8 +25,8 @@ export default class WorkoutTypes extends React.PureComponent {
 				reps: 5,
 			},
 			{
-				key: 'bag',
-				name: 'Bag',
+				slug: 'no-hang',
+				name: 'No-hang crimp',
 				readyTime: 5000,
 				sets: 5,
 				setsRestTime: 60000,
@@ -38,13 +38,11 @@ export default class WorkoutTypes extends React.PureComponent {
 	}
 
 	render() {
-		return 								(
+		return (
 			<ul>
 				{
-					WorkoutTypes.getTypes().map( ( workout ) => (
-						<li key={workout.key}>
-							<Link to={`/workouts/${workout.key}`}>{ workout.name }</Link>
-						</li>
+					Workouts.getTypes().map( ( workout ) => (
+						<WorkoutCard {...workout} />
 					) )
 				}
 			</ul>
