@@ -10,8 +10,9 @@ import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import actions from './actions';
+import './Login.scss';
 
 class Login extends React.Component {
 	constructor( props ) {
@@ -55,7 +56,7 @@ class Login extends React.Component {
 				<CssBaseline />
 				<div>
 					<Formik
-						initialValues={ { email: '', password: '' } }
+						initialValues={{ email: '', password: '' }}
 						validate={Login.validate}
 						onSubmit={this.onSubmit}
 					>
@@ -71,10 +72,10 @@ class Login extends React.Component {
 								<TextField
 									InputProps={{
 										startAdornment: (
-										<AlternateEmailIcon />
+											<AlternateEmailIcon />
 										),
 									}}
-									error={ errors.email && touched.email }
+									error={errors.email && touched.email}
 									margin="normal"
 									required
 									fullWidth
@@ -83,18 +84,18 @@ class Login extends React.Component {
 									name="email"
 									autoComplete="email"
 									autoFocus
-									value={ values.email }
+									value={values.email}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									helperText={ touched.email && errors.email }
+									helperText={touched.email && errors.email}
 								/>
 								<TextField
 									InputProps={{
 										startAdornment: (
-										<LockOutlinedIcon />
+											<LockOutlinedIcon />
 										),
 									}}
-									error={ errors.email && touched.email }
+									error={errors.email && touched.email}
 									margin="normal"
 									required
 									fullWidth
@@ -103,18 +104,18 @@ class Login extends React.Component {
 									type="password"
 									id="password"
 									autoComplete="current-password"
-									value={ values.password }
+									value={values.password}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									helperText={ touched.password && errors.password }
+									helperText={touched.password && errors.password}
 								/>
 								<Button
-									onClick={ handleSubmit }
+									onClick={handleSubmit}
 									type="submit"
 									fullWidth
 									variant="contained"
 									color="primary"
-									endIcon={<ArrowBackIcon />}
+									endIcon={<ArrowForwardIcon />}
 								>
 									Sign In
 								</Button>
