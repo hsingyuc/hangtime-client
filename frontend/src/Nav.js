@@ -1,11 +1,20 @@
 import React, { createRef } from 'react';
-import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { Link } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Divider from '@material-ui/core/Divider';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import DescriptionIcon from '@material-ui/icons/Description';
 import LogoutButton from './LogoutButton';
+import './Nav.scss';
 
 export default class Nav extends React.Component {
 	constructor( props ) {
@@ -18,7 +27,6 @@ export default class Nav extends React.Component {
 		this.handleClose = this.handleClose.bind( this );
 	}
 
-	// return focus to the button when we transitioned from !open -> open
 	componentDidUpdate( prevProps, prevState ) {
 		if ( prevState.open === false ) {
 			this.anchorRef.current.focus();
@@ -48,30 +56,51 @@ export default class Nav extends React.Component {
 		const { open } = this.state;
 		return (
 			<div>
-				<Button
-					ref={this.anchorRef}
-					onClick={this.handleToggle}
-				>
-					<MenuOpenIcon />
-				</Button>
-				<SwipeableDrawer
-					anchor="left"
-					open={open}
-					onClose={this.handleToggle}
-					onOpen={this.handleToggle}
-				>
-					<MenuList autoFocusItem={open} onKeyDown={this.handleListKeyDown}>
-						<MenuItem onClick={this.handleClose}>
-							<Link to="/">Workouts</Link>
-						</MenuItem>
-						<MenuItem onClick={this.handleClose}>
-							<Link to="/history">History</Link>
-						</MenuItem>
-						<MenuItem onClick={this.handleClose}>
-							<LogoutButton />
-						</MenuItem>
-					</MenuList>
-				</SwipeableDrawer>
+				<AppBar position="static">
+					<Toolbar variant="dense">
+						<SwipeableDrawer
+							anchor="right"
+							open={open}
+							onClose={this.handleToggle}
+							onOpen={this.handleToggle}
+						>
+							<List autoFocusItem={open} onKeyDown={this.handleListKeyDown}>
+								<ListItem button onClick={this.handleClose} component={Link} to="/">
+									<ListItemIcon>
+										<FitnessCenterIcon />
+									</ListItemIcon>
+									<ListItemText primary="Workouts" />
+								</ListItem>
+
+								<ListItem button onClick={this.handleClose} component={Link} to="/history">
+									<ListItemIcon>
+										<DescriptionIcon />
+									</ListItemIcon>
+									<ListItemText primary="History" />
+								</ListItem>
+							</List>
+
+							<Divider />
+
+							<List>
+								<LogoutButton />
+							</List>
+						</SwipeableDrawer>
+						<Typography variant="h6" color="inherit">
+							HANGTIME
+						</Typography>
+						<IconButton
+							edge="start"
+							className="menuButton"
+							color="inherit"
+							aria-label="menu"
+							ref={this.anchorRef}
+							onClick={this.handleToggle}
+						>
+							<MenuIcon />
+						</IconButton>
+					</Toolbar>
+				</AppBar>
 			</div>
 		);
 	}
