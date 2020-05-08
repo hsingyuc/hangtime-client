@@ -11,7 +11,7 @@ import Sessions from './Sessions';
 import Workout from './Workout';
 import Login from './Login';
 import withAuth from './withAuth';
-import WorkoutTypes from './WorkoutTypes';
+import Workouts from './Workouts';
 import actions from './actions';
 import Register from './Register';
 import Nav from './Nav';
@@ -57,34 +57,37 @@ class App extends React.Component {
 								</nav>
 							)}
 
+
 						{/* A <Switch> looks through its children <Route>s and
 			renders the first one that matches the current URL. */}
-						<Switch>
+						<div className="wrapper">
+							<Switch>
+								{ Workouts.getTypes().map( ( workout ) => (
+									<Route
+										path={`/workouts/${workout.slug}`}
+										key={workout.slug}
+										component={() => {
+											const WrappedWorkout = withAuth( Workout );
+											return <WrappedWorkout {...workout} />;
+										}}
+									/>
+								) ) }
 
-							{ WorkoutTypes.getTypes().map( ( workout ) => (
-								<Route
-									path={`/workouts/${workout.key}`}
-									key={workout.key}
-									component={() => {
-										const WrappedWorkout = withAuth( Workout );
-										return <WrappedWorkout {...workout} />;
-									}}
-								/>
-							) ) }
+								<Route path="/history" component={withAuth( Sessions )} />
 
-							<Route path="/history" component={withAuth( Sessions )} />
+								<Route path="/login">
+									<Login />
+								</Route>
 
-							<Route path="/login">
-								<Login />
-							</Route>
+								<Route path="/register">
+									<Register />
+								</Route>
 
-							<Route path="/register">
-								<Register />
-							</Route>
+								<Route path="/" component={withAuth( Workouts )} />
 
-							<Route path="/" component={withAuth( WorkoutTypes )} />
+							</Switch>
+						</div>
 
-						</Switch>
 					</div>
 				</Router>
 			</div>
@@ -109,7 +112,7 @@ const mapDispatchToProps = ( dispatch ) => ( {
 App.propTypes = {
 	setAuthRequesting: PropTypes.func.isRequired,
 	setCurrentUser: PropTypes.func.isRequired,
-	currentUser: PropTypes.instanceOf(Object),
+	currentUser: PropTypes.instanceOf( Object ),
 };
 
 export default connect( mapStateToProps, mapDispatchToProps )( App );

@@ -1,0 +1,12 @@
+.workout-card {
+	margin: 24px;
+	
+	.MuiCardActionArea-root {
+		display: flex;
+		justify-content: flex-start;
+	}
+
+	.MuiCardMedia-img {
+		width: 30%;
+	}
+}
