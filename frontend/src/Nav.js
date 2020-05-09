@@ -10,9 +10,9 @@ import Divider from '@material-ui/core/Divider';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import HistoryIcon from '@material-ui/icons/History';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DescriptionIcon from '@material-ui/icons/Description';
 import LogoutButton from './LogoutButton';
 import './Nav.scss';
 
@@ -74,7 +74,7 @@ export default class Nav extends React.Component {
 
 								<ListItem button onClick={this.handleClose} component={Link} to="/history">
 									<ListItemIcon>
-										<DescriptionIcon />
+										<HistoryIcon />
 									</ListItemIcon>
 									<ListItemText primary="History" />
 								</ListItem>
