@@ -9,11 +9,10 @@ export default class Workouts extends React.PureComponent {
 				name: 'Repeaters',
 				readyTime: 5000,
 				sets: 3,
-				setsRestTime: 30000,
-				repTime: 4000,
-				repsRestTime: 6000,
+				setsRestTime: 7200000,
+				repTime: 7000,
+				repsRestTime: 3000,
 				reps: 6,
-				info: "- Hangboard Repeaters – the first-ever protocol designed for hangboard training.  -Leads to intense muscle pump."
 			},
 			{
 				slug: 'max-hang',
@@ -22,9 +21,8 @@ export default class Workouts extends React.PureComponent {
 				sets: 5,
 				setsRestTime: 60000,
 				repTime: 10000,
-				repsRestTime: 30000,
+				repsRestTime: 0,
 				reps: 5,
-				info: "- Low-volume, high-intensity protocols for significant strength gains.  - Short TUT and high intensity lead to rapid neural adaptations."
 			},
 			{
 				slug: 'no-hang',
@@ -33,9 +31,8 @@ export default class Workouts extends React.PureComponent {
 				sets: 5,
 				setsRestTime: 60000,
 				repTime: 10000,
-				repsRestTime: 30000,
+				repsRestTime: 0,
 				reps: 5,
-				info: "The no hang allows you to come really close to isolating fingers and getting a real feel for how strong they are."
 			},
 		];
 	}
