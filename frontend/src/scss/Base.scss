@@ -5,11 +5,16 @@ body {
 	sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: black !important;
-	color: white !important;
+	background-color: $bg-color;
+	color: white;
 }
 
 code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-	monospace;
+	font-family: 'source-code-pro', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace';
+}
+
+.MuiContainer-root {
+	display: flex;
+    align-items: center;
+    min-height: 100vh;
 }

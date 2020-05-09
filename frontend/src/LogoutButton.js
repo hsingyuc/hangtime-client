@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PropTyeps from 'prop-types';
 import actions from './actions';
 
 class LogoutButton extends React.Component {
@@ -27,13 +28,17 @@ class LogoutButton extends React.Component {
 		return 	(
 			<ListItem button onClick={() => this.logOut()}>
 				<ListItemIcon>
-					<InboxIcon />
+					<ExitToAppIcon />
 				</ListItemIcon>
 				<ListItemText primary="Log out" />
 			</ListItem>
 		);
 	}
 }
+
+LogoutButton.propTypes = {
+	setCurrentUser: PropTyeps.instanceOf( Object ).isRequired,
+};
 
 const mapStateToProps = ( state ) => ( {
 	currentUser: state.currentUser,

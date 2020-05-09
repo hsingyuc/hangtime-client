@@ -1,16 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
+import './style.scss';
 import { Provider } from 'react-redux';
+import { StylesProvider } from '@material-ui/core/styles';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
 
+
 ReactDOM.render(
 	<React.StrictMode>
-		<Provider store={store}>
-			<App />
-		</Provider>
+		<StylesProvider injectFirst>
+			<Provider store={store}>
+				<App />
+			</Provider>
+		</StylesProvider>
 	</React.StrictMode>,
 	document.getElementById( 'root' ),
 );
