@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import actions from './actions';
 import './Login.scss';
+import Register from './Register';
 
 class Login extends React.Component {
 	constructor( props ) {
@@ -21,7 +22,6 @@ class Login extends React.Component {
 	}
 
 	async onSubmit( values, { setErrors } ) {
-		// values.preventDefault();
 		const { email, password } = values;
 
 		const response = await fetch( 'http://localhost:8080/auth/login', {
@@ -57,7 +57,7 @@ class Login extends React.Component {
 				<div>
 					<Formik
 						initialValues={{ email: '', password: '' }}
-						validate={Login.validate}
+						validate={Register.validate}
 						onSubmit={this.onSubmit}
 					>
 						{( {

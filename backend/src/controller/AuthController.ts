@@ -14,16 +14,16 @@ export default class AuthController {
 
 		const userEmail = await this.userRepository.findOne( { email } );
 		if ( userEmail ) {
-			errors.email = 'This email is already registered';
+			errors.email = 'This email is already registered.';
 		}
 
 		if ( !email.length ) {
-			return { error: { errors: { email: 'Email is required' } } };
-			errors.email = 'Email is required';
+			// errors.email = 'Email is required!';
+			return { error: { errors: { email: 'Email is required!' } } };
 		}
 
 		if ( !password.length ) {
-			errors.password = 'Password is required';
+			errors.password = 'Password is required!';
 		}
 
 		if ( Object.keys( errors ).length ) {
@@ -36,13 +36,17 @@ export default class AuthController {
 	}
 
 	async login( request: Request, response: Response ) {
+		if ( !request.body.email ) {
+			return { error: { errors: { password: 'Email is required!' } } };
+		}
+
 		const user = await this.userRepository.findOne( { email: request.body.email } );
 
 		if ( !user ) {
 			return {
 				error: {
 					errors: {
-						email: 'No user found',
+						email: 'No user found!',
 					},
 				},
 			};
