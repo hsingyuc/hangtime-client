@@ -1,0 +1,86 @@
+.MuiInputBase-root {
+	color: white;
+	margin-left: 5px;
+	
+	.MuiSvgIcon-root {
+		margin-bottom: 10px;
+	}
+}
+
+.MuiInputBase-root.Mui-focused {
+	color: $primary-color;
+}
+
+.MuiInput-underline:before {
+	border-bottom: 1px solid white;
+}
+
+.MuiInput-underline:after {
+	border-bottom: 1px solid $primary-color;
+}
+
+.MuiFormLabel-root {
+    color: white;
+}
+
+.MuiFormLabel-root.Mui-focused {
+    color: $primary-color;
+}
+
+.MuiInputLabel-formControl {
+    left: 35px;
+}
+
+
+
+.MuiInputBase-input:-webkit-autofill,
+.MuiInputBase-input:-webkit-autofill:hover,
+.MuiInputBase-input:-webkit-autofill:focus,
+.MuiInputBase-input:-webkit-autofill:active {
+    -webkit-animation: autofill 0s forwards;
+    animation: autofill 0s forwards;
+}
+
+@keyframes autofill {
+    100% {
+        background: transparent;
+        color: inherit;
+    }
+}
+
+@-webkit-keyframes autofill {
+    100% {
+        background: transparent;
+        color: inherit;
+    }
+}
+
+.MuiInputBase-input,
+.MuiInputBase-input:invalid,
+.MuiInputBase-input:focus,
+.MuiInputBase-input:-webkit-autofill {
+    margin-left: 10px;
+}
+
+.MuiTypography-colorPrimary {
+	color: white;
+	text-align: center;
+	width: 100%;
+    display: block;
+    margin-top: 20px;
+}
+
+.MuiButton-root {
+	border-radius: 20px;
+    margin-top: 20px;
+}
+
+.MuiButton-containedPrimary,
+.MuiButton-containedPrimary:hover {
+    background-color: $primary-color;
+}
+
+.MuiFormHelperText-root {
+    color: #ec5283;
+}
+
