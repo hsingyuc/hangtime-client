@@ -80,7 +80,16 @@
     background-color: $primary-color;
 }
 
-.MuiFormHelperText-root {
+.MuiFormHelperText-root.Mui-error {
+    color: #ec5283;
+    margin-left: 5px;
+}
+
+.MuiFormLabel-root.Mui-error,
+.MuiFormLabel-asterisk.Mui-error{
     color: #ec5283;
 }
 
+.MuiInput-underline.Mui-error:after {
+    border-bottom-color: #ec5283;
+}
