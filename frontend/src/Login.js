@@ -12,7 +12,6 @@ import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import actions from './actions';
-import './Login.scss';
 import Register from './Register';
 
 class Login extends React.Component {
