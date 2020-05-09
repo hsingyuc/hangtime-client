@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Icon from '@material-ui/core/Icon';
 import actions from './actions';
 
 class Register extends React.PureComponent {
@@ -17,7 +16,7 @@ class Register extends React.PureComponent {
 		const errors = {};
 		if ( !values.email ) {
 			errors.email = 'Email is required';
-		} else if ( !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email) ) {
+		} else if ( !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test( values.email ) ) {
 			errors.email = 'Invalid email address';
 		}
 		if ( !values.password.length ) {
@@ -67,7 +66,7 @@ class Register extends React.PureComponent {
 				<CssBaseline />
 				<div>
 					<Formik
-						initialValues={ { email: '', password: '' } }
+						initialValues={{ email: '', password: '' }}
 						validate={Register.validate}
 						onSubmit={this.onSubmit}
 					>
@@ -83,10 +82,10 @@ class Register extends React.PureComponent {
 								<TextField
 									InputProps={{
 										startAdornment: (
-										<AlternateEmailIcon />
+											<AlternateEmailIcon />
 										),
 									}}
-									error={ errors.email && touched.email }
+									error={errors.email && touched.email}
 									margin="normal"
 									required
 									fullWidth
@@ -95,18 +94,18 @@ class Register extends React.PureComponent {
 									name="email"
 									autoComplete="email"
 									autoFocus
-									value={ values.email }
+									value={values.email}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									helperText={ touched.email && errors.email }
+									helperText={touched.email && errors.email}
 								/>
 								<TextField
 									InputProps={{
 										startAdornment: (
-										<LockOutlinedIcon />
+											<LockOutlinedIcon />
 										),
 									}}
-									error={ errors.email && touched.email }
+									error={errors.email && touched.email}
 									margin="normal"
 									required
 									fullWidth
@@ -115,13 +114,13 @@ class Register extends React.PureComponent {
 									type="password"
 									id="password"
 									autoComplete="current-password"
-									value={ values.password }
+									value={values.password}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									helperText={ touched.password && errors.password }
+									helperText={touched.password && errors.password}
 								/>
 								<Button
-									onClick={ handleSubmit }
+									onClick={handleSubmit}
 									type="submit"
 									fullWidth
 									variant="contained"
