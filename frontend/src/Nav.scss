@@ -1,23 +1,25 @@
-.MuiTypography-root.MuiTypography-h6.MuiTypography-colorInherit {
-	margin-left: auto;
-}
-
-button.MuiButtonBase-root.MuiIconButton-root.menuButton.MuiIconButton-colorInherit.MuiIconButton-edgeStart {
+.MuiIconButton-edgeStart {
     margin-left: auto;
 }
 
 .MuiAppBar-colorPrimary {
-    background-color: #30D5C8 !important;
+    background-color: transparent;
 }
 
 .MuiDrawer-paper {
-    background-color: black !important;
+    background-color: black;
 }
 
 .MuiListItemText-root {
-    color: white !important;
+    color: white;
 }
 
 .MuiDivider-root {
-    background-color: gray !important;
+    background-color: gray;
+}
+
+.MuiListItemIcon-root {
+    .MuiSvgIcon-root {
+        fill: white;
+    }
 }
