@@ -6,7 +6,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import './WorkoutCard.scss';
 import HourglassFullIcon from '@material-ui/icons/HourglassFull';
 import LoopIcon from '@material-ui/icons/Loop';
 import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
