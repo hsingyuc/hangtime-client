@@ -1,0 +1,59 @@
+.workout-card {
+	margin: 30px;
+	background-color: #2f383b;
+	
+	.MuiCardActionArea-root {
+		display: flex;
+		justify-content: flex-start;
+	}
+
+	.MuiCardMedia-img {
+		width: 35%;
+		filter: grayscale(0.9);
+	}
+
+	.MuiCardContent-root {
+		color: white;
+		margin-left: 35px;
+		padding: 0px;
+
+		@media (max-width: 375px) {
+			margin-left: 10px;
+		}
+	}
+
+	.MuiSvgIcon-root {
+		fill: $primary-color;
+		width: 17px;
+		margin-right: 5px;
+	}
+
+	
+	.MuiTypography-colorTextSecondary {
+		color: white;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.workout-info {
+		display: flex;
+		align-items: center;
+		margin-right: 20px;
+
+		&:nth-child(2) svg {
+			fill: #de0d57;
+		}	
+
+		&:nth-child(3) svg {
+			fill: #dcdc09;
+		}	
+	}
+}
+
+.MuiTooltip-popper {
+	margin-top: 2px;
+
+	@media (max-width: 659px) {
+		margin-top: -8px;
+	}
+}
