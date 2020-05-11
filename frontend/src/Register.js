@@ -10,6 +10,7 @@ import { Formik } from 'formik';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import actions from './actions';
+import Logo from './Logo';
 
 class Register extends React.PureComponent {
 	static validate( values ) {
@@ -65,6 +66,7 @@ class Register extends React.PureComponent {
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<div>
+					<Logo />
 					<Formik
 						initialValues={{ email: '', password: '' }}
 						validate={Register.validate}

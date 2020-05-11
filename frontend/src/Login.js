@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import actions from './actions';
 import Register from './Register';
+import Logo from './Logo';
 
 class Login extends React.Component {
 	constructor( props ) {
@@ -54,6 +55,7 @@ class Login extends React.Component {
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<div>
+					<Logo />
 					<Formik
 						initialValues={{ email: '', password: '' }}
 						validate={Register.validate}
