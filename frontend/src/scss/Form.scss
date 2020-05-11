@@ -80,7 +80,9 @@
     background-color: $primary-color;
 }
 
-.MuiFormHelperText-root.Mui-error {
+.MuiFormHelperText-root,
+.Mui-error,
+.Mui-required {
     color: #ec5283;
     margin-left: 5px;
 }
