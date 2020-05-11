@@ -42,7 +42,7 @@ export default class Workouts extends React.PureComponent {
 			<>
 				{
 					Workouts.getTypes().map( ( workout ) => (
-						<WorkoutCard {...workout} />
+						<WorkoutCard key={workout.slug} {...workout} />
 					) )
 				}
 			</>
