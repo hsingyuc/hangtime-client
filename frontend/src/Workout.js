@@ -190,18 +190,23 @@ class Workout extends React.Component {
 					currentRep={currentRep}
 				/>
 				<Countdown time={time} />
-				<span>
-					Reps:
+				<span className="numerator">
 					{ currentRep }
-					{' '}
-					/
+				</span>
+				{' '}
+				<span className="slash-entity">&frasl;</span>
+				{/* / */}
+				<span className="denominator">
 					{ reps }
 				</span>
-				<span>
-					Sets:
+
+				<span className="numerator">
 					{ currentSet }
-					{' '}
-					/
+				</span>
+				{' '}
+				{/* <span className="slash-entity">&frasl;</span> */}
+				/
+				<span className="denominator">
 					{ sets }
 				</span>
 				<button type="submit" onClick={() => this.saveSession( true )}>Success</button>
