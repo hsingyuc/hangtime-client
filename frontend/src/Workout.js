@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Countdown from './Countdown';
+import ProgressCircle from './ProgressCircle';
 
 class Workout extends React.Component {
 	constructor( props ) {
@@ -45,9 +46,32 @@ class Workout extends React.Component {
 		}
 	}
 
+	getTotalTime() {
+		const { status, currentRep } = this.state;
+		const {
+			readyTime,
+			repTime,
+			reps,
+			repsRestTime,
+			setsRestTime,
+		} = this.props;
+
+		switch ( true ) {
+		case status === 'ready':
+			return readyTime;
+		case status === 'rep':
+			return repTime;
+		case status === 'rest' && currentRep === reps:
+			return setsRestTime;
+		case status === 'rest':
+			return repsRestTime;
+		default:
+			return null;
+		}
+	}
+
 	async saveSession( isSuccess ) {
 		const data = { ...this.props, isSuccess };
-		console.log(data);
 		const response = await fetch( 'http://localhost:8080/sessions', {
 			method: 'POST',
 			headers: {
@@ -57,7 +81,6 @@ class Workout extends React.Component {
 			body: JSON.stringify( data ),
 		} );
 		const json = await response.json();
-		console.log(json);
 	}
 
 	countTimeDifference() {
@@ -124,7 +147,6 @@ class Workout extends React.Component {
 			reps, repsRestTime, sets, setsRestTime,
 		} = this.props;
 		const { currentRep, currentSet } = this.state;
-
 		if ( currentRep === reps && currentSet === sets ) {
 			this.setState( {
 				status: 'complete',
@@ -153,9 +175,18 @@ class Workout extends React.Component {
 			currentSet,
 			status,
 		} = this.state;
-		const { reps, sets } = this.props;
+		const {
+			reps,
+			sets,
+		} = this.props;
+
 		return (
 			<div>
+				<ProgressCircle
+					totalTime={this.getTotalTime()}
+					remainingTime={time}
+					status={status}
+				/>
 				<span>
 					Status:
 					{status}
