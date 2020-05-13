@@ -186,11 +186,9 @@ class Workout extends React.Component {
 					totalTime={this.getTotalTime()}
 					remainingTime={time}
 					status={status}
+					status={status}
+					currentRep={currentRep}
 				/>
-				<span>
-					Status:
-					{status}
-				</span>
 				<Countdown time={time} />
 				<span>
 					Reps:
