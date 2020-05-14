@@ -194,8 +194,7 @@ class Workout extends React.Component {
 					{ currentRep }
 				</span>
 				{' '}
-				<span className="slash-entity">&frasl;</span>
-				{/* / */}
+				/
 				<span className="denominator">
 					{ reps }
 				</span>
@@ -204,7 +203,6 @@ class Workout extends React.Component {
 					{ currentSet }
 				</span>
 				{' '}
-				{/* <span className="slash-entity">&frasl;</span> */}
 				/
 				<span className="denominator">
 					{ sets }
