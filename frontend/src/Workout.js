@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import Countdown from './Countdown';
 import ProgressCircle from './ProgressCircle';
 
@@ -12,6 +14,7 @@ class Workout extends React.Component {
 			status: 'ready',
 			time: props.readyTime,
 			timerTimestamp: null,
+			hanging: false,
 		};
 		this.timeout = null;
 		this.countTimeDifference = this.countTimeDifference.bind( this );
@@ -98,11 +101,15 @@ class Workout extends React.Component {
 	}
 
 	startTimer() {
-		this.setState( { timerTimestamp: Date.now() }, this.countTimeDifference );
+		this.setState( {
+			timerTimestamp: Date.now(),
+			hanging: true,
+		}, this.countTimeDifference );
 	}
 
 	pauseTimer() {
 		clearTimeout( this.timeout );
+		this.setState( { hanging: false } );
 	}
 
 	goToRep( rep, addReady = false ) {
@@ -179,6 +186,7 @@ class Workout extends React.Component {
 			currentRep,
 			currentSet,
 			status,
+			hanging,
 		} = this.state;
 		const {
 			reps,
@@ -212,14 +220,15 @@ class Workout extends React.Component {
 				<span className="denominator">
 					{ sets }
 				</span>
+				<button type="button" onClick={() => this.goToRep( currentRep - 1, true )}>Previous rep</button>
+				<button type="button" onClick={() => this.goToRep( currentRep + 1, true )}>Next rep</button>
 				<button type="submit" onClick={() => this.saveSession( true )}>Success</button>
-				<button type="button" onClick={this.startTimer}>Start</button>
-				<button type="button" onClick={this.pauseTimer}>Pause</button>
+				{hanging
+					? <PauseCircleOutlineIcon onClick={this.pauseTimer} />
+					: <PlayCircleOutlineIcon onClick={this.startTimer} />}
 				<button type="submit" onClick={() => this.saveSession( false )}>Fail</button>
 				<button type="button" onClick={() => this.goToSet( currentSet - 1 )}>Previous set</button>
 				<button type="button" onClick={() => this.goToSet( currentSet + 1 )}>Next set</button>
-				<button type="button" onClick={() => this.goToRep( currentRep - 1, true )}>Previous rep</button>
-				<button type="button" onClick={() => this.goToRep( currentRep + 1, true )}>Next rep</button>
 			</div>
 		);
 	}
