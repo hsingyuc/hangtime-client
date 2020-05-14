@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import FastForwardIcon from '@material-ui/icons/FastForward';
+import FastRewindIcon from '@material-ui/icons/FastRewind';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
 import Countdown from './Countdown';
 import ProgressCircle from './ProgressCircle';
 
@@ -203,32 +209,33 @@ class Workout extends React.Component {
 					currentRep={currentRep}
 				/>
 				<Countdown time={time} />
-				<span className="numerator">
-					{ currentRep }
-				</span>
-				{' '}
-				/
-				<span className="denominator">
-					{ reps }
-				</span>
-
-				<span className="numerator">
-					{ currentSet }
-				</span>
-				{' '}
-				/
-				<span className="denominator">
-					{ sets }
-				</span>
-				<button type="button" onClick={() => this.goToRep( currentRep - 1, true )}>Previous rep</button>
-				<button type="button" onClick={() => this.goToRep( currentRep + 1, true )}>Next rep</button>
-				<button type="submit" onClick={() => this.saveSession( true )}>Success</button>
-				{hanging
-					? <PauseCircleOutlineIcon onClick={this.pauseTimer} />
-					: <PlayCircleOutlineIcon onClick={this.startTimer} />}
-				<button type="submit" onClick={() => this.saveSession( false )}>Fail</button>
-				<button type="button" onClick={() => this.goToSet( currentSet - 1 )}>Previous set</button>
-				<button type="button" onClick={() => this.goToSet( currentSet + 1 )}>Next set</button>
+				<div className="buttons-container">
+					<SkipPreviousIcon onClick={() => this.goToRep( currentRep - 1, true )} />
+					<span className="numerator">
+						{ currentRep }
+					</span>
+					{' '}
+					/
+					<span className="denominator">
+						{ reps }
+					</span>
+					<SkipNextIcon onClick={() => this.goToRep( currentRep + 1, true )} />
+					<CheckCircleOutlineIcon onClick={() => this.saveSession( true )} />
+					{hanging
+						? <PauseCircleOutlineIcon onClick={this.pauseTimer} />
+						: <PlayCircleOutlineIcon onClick={this.startTimer} />}
+					<HighlightOffIcon onClick={() => this.saveSession( false )} />
+					<FastRewindIcon onClick={() => this.goToSet( currentSet - 1 )} />
+					<span className="numerator">
+						{ currentSet }
+					</span>
+					{' '}
+					/
+					<span className="denominator">
+						{ sets }
+					</span>
+					<FastForwardIcon onClick={() => this.goToSet( currentSet + 1 )} />
+				</div>
 			</div>
 		);
 	}
