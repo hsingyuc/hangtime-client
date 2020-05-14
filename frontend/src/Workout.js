@@ -16,6 +16,7 @@ class Workout extends React.Component {
 		this.timeout = null;
 		this.countTimeDifference = this.countTimeDifference.bind( this );
 		this.pauseTimer = this.pauseTimer.bind( this );
+		this.startTimer = this.startTimer.bind( this );
 		this.saveSession = this.saveSession.bind( this );
 	}
 
@@ -94,6 +95,10 @@ class Workout extends React.Component {
 		} );
 
 		this.timeout = setTimeout( () => this.countTimeDifference(), 50 );
+	}
+
+	startTimer() {
+		this.setState( { timerTimestamp: Date.now() }, this.countTimeDifference );
 	}
 
 	pauseTimer() {
@@ -208,7 +213,7 @@ class Workout extends React.Component {
 					{ sets }
 				</span>
 				<button type="submit" onClick={() => this.saveSession( true )}>Success</button>
-				<button type="button" onClick={this.countTimeDifference}>Start</button>
+				<button type="button" onClick={this.startTimer}>Start</button>
 				<button type="button" onClick={this.pauseTimer}>Pause</button>
 				<button type="submit" onClick={() => this.saveSession( false )}>Fail</button>
 				<button type="button" onClick={() => this.goToSet( currentSet - 1 )}>Previous set</button>
