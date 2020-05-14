@@ -22,7 +22,7 @@ export default class Workouts extends React.PureComponent {
 				setsRestTime: 60000,
 				repTime: 10000,
 				repsRestTime: 0,
-				reps: 5,
+				reps: 1,
 			},
 			{
 				slug: 'no-hang',
@@ -32,7 +32,7 @@ export default class Workouts extends React.PureComponent {
 				setsRestTime: 60000,
 				repTime: 10000,
 				repsRestTime: 0,
-				reps: 5,
+				reps: 1,
 			},
 		];
 	}
