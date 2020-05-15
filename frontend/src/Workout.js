@@ -208,34 +208,54 @@ class Workout extends React.Component {
 					status={status}
 					currentRep={currentRep}
 				/>
+
 				<Countdown time={time} />
-				<div className="buttons-container">
-					<SkipPreviousIcon onClick={() => this.goToRep( currentRep - 1, true )} />
-					<span className="numerator">
-						{ currentRep }
-					</span>
-					{' '}
-					/
-					<span className="denominator">
-						{ reps }
-					</span>
-					<SkipNextIcon onClick={() => this.goToRep( currentRep + 1, true )} />
+
+				<div className="save-session-buttons">
 					<CheckCircleOutlineIcon onClick={() => this.saveSession( true )} />
+					<HighlightOffIcon onClick={() => this.saveSession( false )} />
+				</div>
+
+
+				<div className="sets-reps-text">
+					<div className="reps">
+						<span className="numerator">
+							{ currentRep }
+						</span>
+						<span className="slash-entity">/</span>
+						<span className="denominator">
+							{ reps }
+						</span>
+					</div>
+
+					<div className="sets">
+						<span className="numerator">
+							{ currentSet }
+						</span>
+						<span className="slash-entity">/</span>
+						<span className="denominator">
+							{ sets }
+						</span>
+					</div>
+				</div>
+
+				<div className="play-pause-button">
 					{hanging
 						? <PauseCircleOutlineIcon onClick={this.pauseTimer} />
 						: <PlayCircleOutlineIcon onClick={this.startTimer} />}
-					<HighlightOffIcon onClick={() => this.saveSession( false )} />
-					<FastRewindIcon onClick={() => this.goToSet( currentSet - 1 )} />
-					<span className="numerator">
-						{ currentSet }
-					</span>
-					{' '}
-					/
-					<span className="denominator">
-						{ sets }
-					</span>
-					<FastForwardIcon onClick={() => this.goToSet( currentSet + 1 )} />
 				</div>
+
+				<div className="sets-reps-buttons">
+					<div className="rewind-buttons">
+						<FastRewindIcon onClick={() => this.goToSet( currentSet - 1 )} />
+						<SkipPreviousIcon onClick={() => this.goToRep( currentRep - 1, true )} />
+					</div>
+					<div className="forward-buttons">
+						<SkipNextIcon onClick={() => this.goToRep( currentRep + 1, true )} />
+						<FastForwardIcon onClick={() => this.goToSet( currentSet + 1 )} />
+					</div>
+				</div>
+
 			</div>
 		);
 	}

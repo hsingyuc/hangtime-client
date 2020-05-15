@@ -9,7 +9,7 @@ export default class Workouts extends React.PureComponent {
 				name: 'Repeaters',
 				readyTime: 5000,
 				sets: 3,
-				setsRestTime: 7200000,
+				setsRestTime: 60000,
 				repTime: 7000,
 				repsRestTime: 3000,
 				reps: 6,
