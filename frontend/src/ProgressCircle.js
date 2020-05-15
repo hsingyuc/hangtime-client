@@ -26,14 +26,22 @@ export default class ProgressCircle extends React.Component {
 
 	render() {
 		const { totalTime, remainingTime, status } = this.props;
-		const percentComplete = ( ( totalTime - remainingTime ) / totalTime ) * 100;
+		const elapsedTime = totalTime - remainingTime;
+		const percentComplete = status === 'ready' && elapsedTime === 0
+			? 100
+			: ( elapsedTime / totalTime ) * 100;
 
 		return (
 			<div className={`progress-circle is-${status}`}>
 				<span className="status-text">
 					{this.renderText()}
 				</span>
-				<CircularProgress variant="static" value={percentComplete} size={200} />
+				<CircularProgress
+  					className="circle-before-ready"
+					variant="static"
+					value={percentComplete}
+					size={200}
+				/>
 			</div>
 		);
 	}
