@@ -10,17 +10,50 @@
 	}
 }
 
+.sets-reps-text {
+	margin-top: 60px;
+    margin-left: auto;
+    max-width: 250px;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+
 	.numerator {
-	   font-size:.7em;
-	   line-height:.7em;
-	   vertical-align:.3em;
+		font-size: 30px;
+		line-height:.7em;
+		vertical-align:.3em;
 	}
+	
 	.denominator {
-	   font-size:.7em;
-	   line-height:.7em;
-	   vertical-align:-.2em;
+		font-size: 19px;
+		margin-top: 14px;
+		line-height: -17px;
 	}
+	
 	.slash-entity {
-	   font-size:.8em;
-	   line-height:.8em;
+		font-size: 30px;
 	}
+}
+
+.play-pause-button .MuiSvgIcon-root {
+    display: block;
+	width: 60px;
+    height: 60px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sets-reps-buttons {
+	display: flex;
+    justify-content: space-around;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+	margin-top: 20px;
+	
+	.MuiSvgIcon-root {
+		width: 50px;
+		height: 30px;
+	}
+}
