@@ -1,14 +1,27 @@
-.progress-circle {
+.countdown-container {
 	position: relative;
+	min-height: 200px;
+	margin-top: 60px;
 
-	.status-text {
+	.progress-circle {
 		position: absolute;
 		left: 50%;
-		top: 30%;
-		transform: translate(-50%, -50%);
-		font-size: 20px;
+		transform: translateX(-50%);
+
+		.status-text {
+			position: absolute;
+			left: 50%;
+			top: 30%;
+			transform: translate(-50%, -50%);
+			font-size: 21px;
+		}
 	}
 }
+
+
+
+
+
 
 .sets-reps-text {
 	margin-top: 60px;
