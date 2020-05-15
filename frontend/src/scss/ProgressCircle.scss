@@ -3,6 +3,9 @@
 }
 
 .progress-circle {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
 
 	&.is-rep .MuiCircularProgress-colorPrimary {
 		color: $primary-color;

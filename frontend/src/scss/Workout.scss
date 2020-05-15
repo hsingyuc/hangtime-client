@@ -4,10 +4,6 @@
 	margin-top: 60px;
 
 	.progress-circle {
-		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
-
 		.status-text {
 			position: absolute;
 			left: 50%;
@@ -16,12 +12,19 @@
 			font-size: 21px;
 		}
 	}
+
+	.save-session-buttons {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+
+		.MuiSvgIcon-root {
+			width: 80px;
+			height: 80px;
+		}
+	}
 }
-
-
-
-
-
 
 .sets-reps-text {
 	margin-top: 60px;

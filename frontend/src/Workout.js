@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+import PauseCircleFilledRoundedIcon from '@material-ui/icons/PauseCircleFilledRounded';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import FastRewindIcon from '@material-ui/icons/FastRewind';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import PlayCircleFilledRoundedIcon from '@material-ui/icons/PlayCircleFilledRounded';
 import Countdown from './Countdown';
 import ProgressCircle from './ProgressCircle';
 
@@ -202,20 +202,26 @@ class Workout extends React.Component {
 		return (
 			<div>
 				<div className="countdown-container">
-					<ProgressCircle
-						totalTime={this.getTotalTime()}
-						remainingTime={time}
-						status={status}
-						status={status}
-						currentRep={currentRep}
-					/>
+					{ status === 'complete'
+						? (
+							<div className="save-session-buttons">
+								<CheckCircleOutlineIcon onClick={() => this.saveSession( true )} />
+								<HighlightOffIcon onClick={() => this.saveSession( false )} />
+							</div>
+						)
+						: (
+							<>
+								<ProgressCircle
+									totalTime={this.getTotalTime()}
+									remainingTime={time}
+									status={status}
+									status={status}
+									currentRep={currentRep}
+								/>
+								<Countdown time={time} />
+							</>
+						)}
 
-					<Countdown time={time} />
-
-					<div className="save-session-buttons">
-						<CheckCircleOutlineIcon onClick={() => this.saveSession( true )} />
-						<HighlightOffIcon onClick={() => this.saveSession( false )} />
-					</div>
 				</div>
 
 				<div className="sets-reps-text">
@@ -242,8 +248,8 @@ class Workout extends React.Component {
 
 				<div className="play-pause-button">
 					{hanging
-						? <PauseCircleOutlineIcon onClick={this.pauseTimer} />
-						: <PlayCircleOutlineIcon onClick={this.startTimer} />}
+						? <PauseCircleFilledRoundedIcon onClick={this.pauseTimer} />
+						: <PlayCircleFilledRoundedIcon onClick={this.startTimer} />}
 				</div>
 
 				<div className="sets-reps-buttons">
