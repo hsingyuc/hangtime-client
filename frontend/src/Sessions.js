@@ -24,6 +24,13 @@ class Sessions extends React.PureComponent {
 		);
 		const json = await response.json();
 		this.setState( { sessions: json.data } );
+		console.log( json.data );
+	}
+
+	static getDaysDifference( item ) {
+		const millisecondsPerDay = 1000 * 60 * 60 * 24;
+		const date = new Date( Date.parse( item.createdAt ) );
+		return Math.round( ( new Date() - date ) / millisecondsPerDay );
 	}
 
 	render() {
@@ -31,22 +38,22 @@ class Sessions extends React.PureComponent {
 
 		return (
 			<div>
-				{ sessions.map( ( item ) => {
-					return (
-						<div key={item.id}>
-							<span>{ item.id }</span>
-							<span>{ item.type }</span>
-							<span>{ item.edge }</span>
-							<span>{ item.numberOfhands }</span>
-							<span>{ item.duration }</span>
-							<span>{ item.reps }</span>
-							<span>{ item.rep_rest }</span>
-							<span>{ item.sets }</span>
-							<span>{ item.set_rest }</span>
-							<span>{ item.weight }</span>
-						</div>
-					);
-				} ) }
+				{ sessions.map( ( item ) => (
+					<div key={item.id}>
+						<span>
+							{ item.id }
+						</span>
+						<span>
+							{ item.type }
+						</span>
+						<span>
+							{ Sessions.getDaysDifference( item ) }
+						</span>
+						<span>
+							{ item.isSuccess ? 'Success' : 'Failed' }
+						</span>
+					</div>
+				) ) }
 			</div>
 		);
 	}
