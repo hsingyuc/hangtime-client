@@ -202,20 +202,26 @@ class Workout extends React.Component {
 		return (
 			<div>
 				<div className="countdown-container">
-					<ProgressCircle
-						totalTime={this.getTotalTime()}
-						remainingTime={time}
-						status={status}
-						status={status}
-						currentRep={currentRep}
-					/>
+					{ status === 'complete'
+						? (
+							<div className="save-session-buttons">
+								<CheckCircleOutlineIcon onClick={() => this.saveSession( true )} />
+								<HighlightOffIcon onClick={() => this.saveSession( false )} />
+							</div>
+						)
+						: (
+							<>
+								<ProgressCircle
+									totalTime={this.getTotalTime()}
+									remainingTime={time}
+									status={status}
+									status={status}
+									currentRep={currentRep}
+								/>
+								<Countdown time={time} />
+							</>
+						)}
 
-					<Countdown time={time} />
-
-					<div className="save-session-buttons">
-						<CheckCircleOutlineIcon onClick={() => this.saveSession( true )} />
-						<HighlightOffIcon onClick={() => this.saveSession( false )} />
-					</div>
 				</div>
 
 				<div className="sets-reps-text">
