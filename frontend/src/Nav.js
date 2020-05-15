@@ -86,7 +86,7 @@ export default class Nav extends React.Component {
 								<LogoutButton />
 							</List>
 						</SwipeableDrawer>
-						<Typography variant="h6" color="inherit">
+						<Typography variant="h6" color="inherit" component={Link} to="/">
 							HANGTIME
 						</Typography>
 						<IconButton
