@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PauseCircleFilledRoundedIcon from '@material-ui/icons/PauseCircleFilledRounded';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import FastRewindIcon from '@material-ui/icons/FastRewind';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import PlayCircleFilledRoundedIcon from '@material-ui/icons/PlayCircleFilledRounded';
+import ClearIcon from '@material-ui/icons/Clear';
+import DoneIcon from '@material-ui/icons/Done';
 import Countdown from './Countdown';
 import ProgressCircle from './ProgressCircle';
 
@@ -205,8 +205,8 @@ class Workout extends React.Component {
 					{ status === 'complete'
 						? (
 							<div className="save-session-buttons">
-								<CheckCircleOutlineIcon onClick={() => this.saveSession( true )} />
-								<HighlightOffIcon onClick={() => this.saveSession( false )} />
+								<DoneIcon onClick={() => this.saveSession( true )} />
+								<ClearIcon onClick={() => this.saveSession( false )} />
 							</div>
 						)
 						: (
