@@ -13,9 +13,8 @@ import ListItem from '@material-ui/core/ListItem';
 import HistoryIcon from '@material-ui/icons/History';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import LogoutButton from './LogoutButton';
-import './Nav.scss';
 import Tooltip from '@material-ui/core/Tooltip';
+import LogoutButton from './LogoutButton';
 
 export default class Nav extends React.Component {
 	constructor( props ) {
