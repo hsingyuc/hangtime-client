@@ -1,6 +1,9 @@
 import React from 'react';
 import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export default class WorkoutComplete extends React.Component {
 	constructor( props ) {
@@ -22,14 +25,29 @@ export default class WorkoutComplete extends React.Component {
 	}
 
 	render() {
+		const { slug } = this.props;
+
 		return (
 			<div className="WorkoutComplete-container">
-				<div />
+				<div>Congratulations!</div>
 				<div className="save-session-buttons">
 					<DoneIcon onClick={() => this.saveSession( true )} />
 					<ClearIcon onClick={() => this.saveSession( false )} />
 				</div>
+				<Button
+					component={Link} to={`/workouts/${slug}`}
+					type="submit"
+					fullWidth
+					variant="contained"
+					color="primary"
+				>
+					TRY AGAIN
+				</Button>
 			</div>
 		);
 	}
 }
+
+WorkoutComplete.propTypes = {
+	slug: PropTypes.string.isRequired,
+};
