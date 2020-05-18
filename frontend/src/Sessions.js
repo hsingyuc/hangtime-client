@@ -53,9 +53,9 @@ class Sessions extends React.PureComponent {
 
 		return (
 			<div>
-				<Paper className="#">
-					<TableContainer className="#">
-						<Table stickyHeader aria-label="sticky table">
+				<Paper>
+					<TableContainer>
+						<Table>
 							<TableHead>
 								<TableRow>
 									<TableCell>
@@ -74,7 +74,7 @@ class Sessions extends React.PureComponent {
 							</TableHead>
 
 							<TableBody>
-								{sessions.slice( page * 10, page * 10 + 10 ).map( ( session ) => (
+								{sessions.slice( page * 7, page * 7 + 7 ).map( ( session ) => (
 									<TableRow hover role="checkbox" tabIndex={-1} key={session.id}>
 										<TableCell>
 											{ session.id }
@@ -83,10 +83,10 @@ class Sessions extends React.PureComponent {
 											{ session.type }
 										</TableCell>
 										<TableCell>
-											{ Sessions.getDaysDifference( session ) }
+											{ session.isSuccess ? 'Success' : 'Failed' }
 										</TableCell>
 										<TableCell>
-											{ session.isSuccess ? 'Success' : 'Failed' }
+											{ Sessions.getDaysDifference( session ) }
 										</TableCell>
 									</TableRow>
 								) )}
@@ -94,8 +94,8 @@ class Sessions extends React.PureComponent {
 						</Table>
 					</TableContainer>
 					<TablePagination
-						rowsPerPageOptions={[10]}
-						rowsPerPage={10}
+						rowsPerPageOptions={[7]}
+						rowsPerPage={7}
 						component="div"
 						count={sessions.length}
 						page={page}
