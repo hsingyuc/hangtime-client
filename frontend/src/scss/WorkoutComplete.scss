@@ -1,0 +1,44 @@
+.WorkoutComplete-container {
+	display: flex;
+    flex-direction: column;
+	align-items: center;
+
+	.WorkoutComplete-container-bg {
+		background-size: cover;
+		background-image: url("/images/workout_complete.png");
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		z-index: -1;
+	}
+	
+	.WorkoutComplete-text {
+		font-size: 26px;
+		color: $primary-color;
+	}
+
+	.save-session-buttons {
+		margin-top: 90px;
+		margin-bottom: 90px;
+	
+		.MuiSvgIcon-root {
+			width: 80px;
+			height: 80px;
+			margin: 20px;
+		}
+
+		.save-session-done {
+			fill: green;
+		}
+
+		.save-session-clear {
+			fill: red;
+		}
+	}
+
+	.MuiButtonBase-root {
+		max-width: 300px;
+	}
+}

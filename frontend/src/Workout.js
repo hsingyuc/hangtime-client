@@ -182,12 +182,13 @@ class Workout extends React.Component {
 		const {
 			reps,
 			sets,
+			slug,
 		} = this.props;
 
 		return (
 			<div>
 				{ status === 'complete'
-					? <WorkoutComplete />
+					? <WorkoutComplete slug={slug} />
 					: (
 						<>
 							<div className="countdown-container">
@@ -253,6 +254,7 @@ Workout.propTypes = {
 	repsRestTime: PropTypes.number.isRequired,
 	sets: PropTypes.number.isRequired,
 	setsRestTime: PropTypes.number.isRequired,
+	slug: PropTypes.string.isRequired,
 };
 
 export default Workout;
