@@ -1,0 +1,11 @@
+.save-session-buttons {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+
+	.MuiSvgIcon-root {
+		width: 80px;
+		height: 80px;
+	}
+}
