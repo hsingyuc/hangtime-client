@@ -15,6 +15,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import LogoutButton from './LogoutButton';
 import './Nav.scss';
+import Tooltip from '@material-ui/core/Tooltip';
 
 export default class Nav extends React.Component {
 	constructor( props ) {
@@ -86,9 +87,11 @@ export default class Nav extends React.Component {
 								<LogoutButton />
 							</List>
 						</SwipeableDrawer>
-						<Typography variant="h6" color="inherit" component={Link} to="/">
-							HANGTIME
-						</Typography>
+						<Tooltip title="Home" arrow component={Link} to="/">
+							<Typography variant="h6" color="inherit">
+								HANGTIME
+							</Typography>
+						</Tooltip>
 						<IconButton
 							edge="start"
 							className="menuButton"
