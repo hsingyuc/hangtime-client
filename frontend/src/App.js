@@ -60,7 +60,7 @@ class App extends React.Component {
 
 						{/* A <Switch> looks through its children <Route>s and
 			renders the first one that matches the current URL. */}
-						<div className="wrapper">
+						<div className="container">
 							<Switch>
 								{ Workouts.getTypes().map( ( workout ) => (
 									<Route
