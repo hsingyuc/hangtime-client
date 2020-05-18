@@ -32,10 +32,10 @@ export default class WorkoutComplete extends React.Component {
 				<div className="WorkoutComplete-container-bg" />
 				<span className="WorkoutComplete-text">Congratulations!</span>
 				<div className="save-session-buttons">
-					<Button>
+					<Button component={Link} to="/history">
 						<CheckCircleTwoToneIcon className="save-session-done" onClick={() => this.saveSession( true )} />
 					</Button>
-					<Button>
+					<Button component={Link} to="/history">
 						<HighlightOffTwoToneIcon className="save-session-clear" onClick={() => this.saveSession( false )} />
 					</Button>
 				</div>
