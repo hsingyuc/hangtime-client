@@ -1,9 +1,9 @@
 import React from 'react';
-import ClearIcon from '@material-ui/icons/Clear';
-import DoneIcon from '@material-ui/icons/Done';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
+import CheckCircleTwoToneIcon from '@material-ui/icons/CheckCircleTwoTone';
 
 export default class WorkoutComplete extends React.Component {
 	constructor( props ) {
@@ -32,8 +32,12 @@ export default class WorkoutComplete extends React.Component {
 				<div className="WorkoutComplete-container-bg" />
 				<span className="WorkoutComplete-text">Congratulations!</span>
 				<div className="save-session-buttons">
-					<DoneIcon onClick={() => this.saveSession( true )} />
-					<ClearIcon onClick={() => this.saveSession( false )} />
+					<Button>
+						<CheckCircleTwoToneIcon className="save-session-done" onClick={() => this.saveSession( true )} />
+					</Button>
+					<Button>
+						<HighlightOffTwoToneIcon className="save-session-clear" onClick={() => this.saveSession( false )} />
+					</Button>
 				</div>
 				<Button
 					component={Link} to={`/workouts/${slug}`}

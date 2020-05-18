@@ -16,6 +16,7 @@
 	
 	.WorkoutComplete-text {
 		font-size: 26px;
+		color: $primary-color;
 	}
 
 	.save-session-buttons {
@@ -26,6 +27,14 @@
 			width: 80px;
 			height: 80px;
 			margin: 20px;
+		}
+
+		.save-session-done {
+			fill: red;
+		}
+
+		.save-session-clear {
+			fill: green;
 		}
 	}
 
