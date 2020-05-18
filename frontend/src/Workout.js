@@ -6,10 +6,9 @@ import FastForwardIcon from '@material-ui/icons/FastForward';
 import FastRewindIcon from '@material-ui/icons/FastRewind';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import PlayCircleFilledRoundedIcon from '@material-ui/icons/PlayCircleFilledRounded';
-import ClearIcon from '@material-ui/icons/Clear';
-import DoneIcon from '@material-ui/icons/Done';
 import Countdown from './Countdown';
 import ProgressCircle from './ProgressCircle';
+import WorkoutComplete from './WorkoutComplete';
 
 class Workout extends React.Component {
 	constructor( props ) {
@@ -26,7 +25,6 @@ class Workout extends React.Component {
 		this.countTimeDifference = this.countTimeDifference.bind( this );
 		this.pauseTimer = this.pauseTimer.bind( this );
 		this.startTimer = this.startTimer.bind( this );
-		this.saveSession = this.saveSession.bind( this );
 	}
 
 	componentDidUpdate() {
@@ -78,19 +76,6 @@ class Workout extends React.Component {
 		default:
 			return null;
 		}
-	}
-
-	async saveSession( isSuccess ) {
-		const data = { ...this.props, isSuccess };
-		const response = await fetch( 'http://localhost:8080/sessions', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			credentials: 'include',
-			body: JSON.stringify( data ),
-		} );
-		const json = await response.json();
 	}
 
 	countTimeDifference() {
@@ -201,16 +186,11 @@ class Workout extends React.Component {
 
 		return (
 			<div>
-				<div className="countdown-container">
-					{ status === 'complete'
-						? (
-							<div className="save-session-buttons">
-								<DoneIcon onClick={() => this.saveSession( true )} />
-								<ClearIcon onClick={() => this.saveSession( false )} />
-							</div>
-						)
-						: (
-							<>
+				{ status === 'complete'
+					? <WorkoutComplete />
+					: (
+						<>
+							<div className="countdown-container">
 								<ProgressCircle
 									totalTime={this.getTotalTime()}
 									remainingTime={time}
@@ -219,50 +199,48 @@ class Workout extends React.Component {
 									currentRep={currentRep}
 								/>
 								<Countdown time={time} />
-							</>
-						)}
+							</div>
 
-				</div>
+							<div className="sets-reps-text">
+								<div className="reps">
+									<span className="numerator">
+										{ currentRep }
+									</span>
+									<span className="slash-entity">/</span>
+									<span className="denominator">
+										{ reps }
+									</span>
+								</div>
 
-				<div className="sets-reps-text">
-					<div className="reps">
-						<span className="numerator">
-							{ currentRep }
-						</span>
-						<span className="slash-entity">/</span>
-						<span className="denominator">
-							{ reps }
-						</span>
-					</div>
+								<div className="sets">
+									<span className="numerator">
+										{ currentSet }
+									</span>
+									<span className="slash-entity">/</span>
+									<span className="denominator">
+										{ sets }
+									</span>
+								</div>
+							</div>
 
-					<div className="sets">
-						<span className="numerator">
-							{ currentSet }
-						</span>
-						<span className="slash-entity">/</span>
-						<span className="denominator">
-							{ sets }
-						</span>
-					</div>
-				</div>
+							<div className="play-pause-button">
+								{hanging
+									? <PauseCircleFilledRoundedIcon onClick={this.pauseTimer} />
+									: <PlayCircleFilledRoundedIcon onClick={this.startTimer} />}
+							</div>
 
-				<div className="play-pause-button">
-					{hanging
-						? <PauseCircleFilledRoundedIcon onClick={this.pauseTimer} />
-						: <PlayCircleFilledRoundedIcon onClick={this.startTimer} />}
-				</div>
-
-				<div className="sets-reps-buttons">
-					<div className="rewind-buttons">
-						<FastRewindIcon onClick={() => this.goToSet( currentSet - 1 )} />
-						<SkipPreviousIcon onClick={() => this.goToRep( currentRep - 1, true )} />
-					</div>
-					<div className="forward-buttons">
-						<SkipNextIcon onClick={() => this.goToRep( currentRep + 1, true )} />
-						<FastForwardIcon onClick={() => this.goToSet( currentSet + 1 )} />
-					</div>
-				</div>
-
+							<div className="sets-reps-buttons">
+								<div className="rewind-buttons">
+									<FastRewindIcon onClick={() => this.goToSet( currentSet - 1 )} />
+									<SkipPreviousIcon onClick={() => this.goToRep( currentRep - 1, true )} />
+								</div>
+								<div className="forward-buttons">
+									<SkipNextIcon onClick={() => this.goToRep( currentRep + 1, true )} />
+									<FastForwardIcon onClick={() => this.goToSet( currentSet + 1 )} />
+								</div>
+							</div>
+						</>
+					)}
 			</div>
 		);
 	}
