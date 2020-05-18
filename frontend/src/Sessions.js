@@ -52,7 +52,7 @@ class Sessions extends React.PureComponent {
 		const { page, sessions } = this.state;
 
 		return (
-			<div>
+			<div className="table-container">
 				<Paper>
 					<TableContainer>
 						<Table>
