@@ -29,7 +29,8 @@ export default class WorkoutComplete extends React.Component {
 
 		return (
 			<div className="WorkoutComplete-container">
-				<div>Congratulations!</div>
+				<div className="WorkoutComplete-container-bg" />
+				<span className="WorkoutComplete-text">Congratulations!</span>
 				<div className="save-session-buttons">
 					<DoneIcon onClick={() => this.saveSession( true )} />
 					<ClearIcon onClick={() => this.saveSession( false )} />

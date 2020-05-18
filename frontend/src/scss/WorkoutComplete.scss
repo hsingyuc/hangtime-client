@@ -1,11 +1,35 @@
-.save-session-buttons {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+.WorkoutComplete-container {
+	display: flex;
+    flex-direction: column;
+	align-items: center;
 
-	.MuiSvgIcon-root {
-		width: 80px;
-		height: 80px;
+	.WorkoutComplete-container-bg {
+		background-size: cover;
+		background-image: url("/images/workout_complete.png");
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		z-index: -1;
+	}
+	
+	.WorkoutComplete-text {
+		font-size: 26px;
+	}
+
+	.save-session-buttons {
+		margin-top: 90px;
+		margin-bottom: 90px;
+	
+		.MuiSvgIcon-root {
+			width: 80px;
+			height: 80px;
+			margin: 20px;
+		}
+	}
+
+	.MuiButtonBase-root {
+		max-width: 300px;
 	}
 }
