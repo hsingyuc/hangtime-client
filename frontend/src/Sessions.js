@@ -1,13 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
 
 class Sessions extends React.PureComponent {
 	constructor( props ) {
 		super( props );
 		this.state = {
 			sessions: [],
+			page: 0,
 		};
+
+		this.handleChangePage = this.handleChangePage.bind( this );
 	}
 
 	componentDidMount() {
@@ -33,27 +44,64 @@ class Sessions extends React.PureComponent {
 		return Math.round( ( new Date() - date ) / millisecondsPerDay );
 	}
 
+	handleChangePage( event, page ) {
+		this.setState( { page } );
+	}
+
 	render() {
-		const { sessions } = this.state;
+		const { page, sessions } = this.state;
 
 		return (
 			<div>
-				{ sessions.map( ( item ) => (
-					<div key={item.id}>
-						<span>
-							{ item.id }
-						</span>
-						<span>
-							{ item.type }
-						</span>
-						<span>
-							{ Sessions.getDaysDifference( item ) }
-						</span>
-						<span>
-							{ item.isSuccess ? 'Success' : 'Failed' }
-						</span>
-					</div>
-				) ) }
+				<Paper className="#">
+					<TableContainer className="#">
+						<Table stickyHeader aria-label="sticky table">
+							<TableHead>
+								<TableRow>
+									<TableCell>
+										ID
+									</TableCell>
+									<TableCell>
+										Type
+									</TableCell>
+									<TableCell>
+										Result
+									</TableCell>
+									<TableCell>
+										Days ago
+									</TableCell>
+								</TableRow>
+							</TableHead>
+
+							<TableBody>
+								{sessions.slice( page * 10, page * 10 + 10 ).map( ( session ) => (
+									<TableRow hover role="checkbox" tabIndex={-1} key={session.id}>
+										<TableCell>
+											{ session.id }
+										</TableCell>
+										<TableCell>
+											{ session.type }
+										</TableCell>
+										<TableCell>
+											{ Sessions.getDaysDifference( session ) }
+										</TableCell>
+										<TableCell>
+											{ session.isSuccess ? 'Success' : 'Failed' }
+										</TableCell>
+									</TableRow>
+								) )}
+							</TableBody>
+						</Table>
+					</TableContainer>
+					<TablePagination
+						rowsPerPageOptions={[10]}
+						rowsPerPage={10}
+						component="div"
+						count={sessions.length}
+						page={page}
+						onChangePage={this.handleChangePage}
+					/>
+				</Paper>
 			</div>
 		);
 	}
