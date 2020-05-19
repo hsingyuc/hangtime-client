@@ -107,7 +107,7 @@ class Register extends React.PureComponent {
 											<LockOutlinedIcon />
 										),
 									}}
-									error={errors.email && touched.email}
+									error={errors.password && touched.password}
 									margin="normal"
 									required
 									fullWidth
