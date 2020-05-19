@@ -13,52 +13,52 @@ import actions from './actions';
 import Logo from './Logo';
 
 class Register extends React.PureComponent {
-	static validate( values ) {
+	static validate(values) {
 		const errors = {};
-		if ( !values.email ) {
+		if (!values.email) {
 			errors.email = 'Email is required';
-		} else if ( !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test( values.email ) ) {
+		} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
 			errors.email = 'Invalid email address';
 		}
-		if ( !values.password.length ) {
+		if (!values.password.length) {
 			errors.password = 'Password is required';
 		}
 
 		return errors;
 	}
 
-	constructor( props ) {
-		super( props );
-		this.onSubmit = this.onSubmit.bind( this );
+	constructor(props) {
+		super(props);
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	async onSubmit( values, { setErrors } ) {
+	async onSubmit(values, { setErrors }) {
 		const { email, password } = values;
 
-		const response = await fetch( 'http://localhost:8080/auth/register', {
+		const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			credentials: 'include',
-			body: JSON.stringify( {
+			body: JSON.stringify({
 				email,
 				password,
-			} ),
-		} );
+			}),
+		});
 		const json = await response.json();
 		const { setCurrentUser } = this.props;
-		if ( json.error ) {
-			setErrors( json.error.errors );
-		} else if ( json.data ) {
-			setCurrentUser( json.data.user );
+		if (json.error) {
+			setErrors(json.error.errors);
+		} else if (json.data) {
+			setCurrentUser(json.data.user);
 		}
 	}
 
 	render() {
 		const { currentUser } = this.props;
 
-		if ( currentUser ) {
+		if (currentUser) {
 			return <Redirect to="/" />;
 		}
 
@@ -72,66 +72,66 @@ class Register extends React.PureComponent {
 						validate={Register.validate}
 						onSubmit={this.onSubmit}
 					>
-						{( {
+						{({
 							values,
 							errors,
 							touched,
 							handleChange,
 							handleBlur,
 							handleSubmit,
-						} ) => (
-							<form noValidate>
-								<TextField
-									InputProps={{
-										startAdornment: (
-											<AlternateEmailIcon />
-										),
-									}}
-									error={errors.email && touched.email}
-									margin="normal"
-									required
-									fullWidth
-									id="email"
-									label="Email Address"
-									name="email"
-									autoComplete="email"
-									autoFocus
-									value={values.email}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									helperText={touched.email && errors.email}
-								/>
-								<TextField
-									InputProps={{
-										startAdornment: (
-											<LockOutlinedIcon />
-										),
-									}}
-									error={errors.password && touched.password}
-									margin="normal"
-									required
-									fullWidth
-									name="password"
-									label="Password"
-									type="password"
-									id="password"
-									autoComplete="current-password"
-									value={values.password}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									helperText={touched.password && errors.password}
-								/>
-								<Button
-									onClick={handleSubmit}
-									type="submit"
-									fullWidth
-									variant="contained"
-									color="primary"
-								>
-									Register
+						}) => (
+								<form noValidate>
+									<TextField
+										InputProps={{
+											startAdornment: (
+												<AlternateEmailIcon />
+											),
+										}}
+										error={errors.email && touched.email}
+										margin="normal"
+										required
+										fullWidth
+										id="email"
+										label="Email Address"
+										name="email"
+										autoComplete="email"
+										autoFocus
+										value={values.email}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										helperText={touched.email && errors.email}
+									/>
+									<TextField
+										InputProps={{
+											startAdornment: (
+												<LockOutlinedIcon />
+											),
+										}}
+										error={errors.password && touched.password}
+										margin="normal"
+										required
+										fullWidth
+										name="password"
+										label="Password"
+										type="password"
+										id="password"
+										autoComplete="current-password"
+										value={values.password}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										helperText={touched.password && errors.password}
+									/>
+									<Button
+										onClick={handleSubmit}
+										type="submit"
+										fullWidth
+										variant="contained"
+										color="primary"
+									>
+										Register
 								</Button>
-							</form>
-						)}
+								</form>
+							)}
 					</Formik>
 				</div>
 			</Container>
@@ -141,20 +141,20 @@ class Register extends React.PureComponent {
 
 Register.propTypes = {
 	setCurrentUser: PropTypes.func.isRequired,
-	currentUser: PropTypes.instanceOf( Object ),
+	currentUser: PropTypes.instanceOf(Object),
 };
 
-const mapStateToProps = ( state ) => ( {
+const mapStateToProps = (state) => ({
 	currentUser: state.currentUser,
-} );
+});
 
-const mapDispatchToProps = ( dispatch ) => ( {
-	setAuthRequesting: ( value ) => {
-		dispatch( actions.setAuthRequesting( value ) );
+const mapDispatchToProps = (dispatch) => ({
+	setAuthRequesting: (value) => {
+		dispatch(actions.setAuthRequesting(value));
 	},
-	setCurrentUser: ( user ) => {
-		dispatch( actions.setCurrentUser( user ) );
+	setCurrentUser: (user) => {
+		dispatch(actions.setCurrentUser(user));
 	},
-} );
+});
 
-export default connect( mapStateToProps, mapDispatchToProps )( Register );
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

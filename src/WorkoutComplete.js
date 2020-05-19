@@ -6,21 +6,21 @@ import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 import CheckCircleTwoToneIcon from '@material-ui/icons/CheckCircleTwoTone';
 
 export default class WorkoutComplete extends React.Component {
-	constructor( props ) {
-		super( props );
-		this.saveSession = this.saveSession.bind( this );
+	constructor(props) {
+		super(props);
+		this.saveSession = this.saveSession.bind(this);
 	}
 
-	async saveSession( isSuccess ) {
+	async saveSession(isSuccess) {
 		const data = { ...this.props, isSuccess };
-		const response = await fetch( 'http://localhost:8080/sessions', {
+		const response = await fetch(`${process.env.REACT_APP_API_URL}/sessions`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			credentials: 'include',
-			body: JSON.stringify( data ),
-		} );
+			body: JSON.stringify(data),
+		});
 		const json = await response.json();
 	}
 
@@ -33,10 +33,10 @@ export default class WorkoutComplete extends React.Component {
 				<span className="WorkoutComplete-text">Congratulations!</span>
 				<div className="save-session-buttons">
 					<Button component={Link} to="/history">
-						<CheckCircleTwoToneIcon className="save-session-done" onClick={() => this.saveSession( true )} />
+						<CheckCircleTwoToneIcon className="save-session-done" onClick={() => this.saveSession(true)} />
 					</Button>
 					<Button component={Link} to="/history">
-						<HighlightOffTwoToneIcon className="save-session-clear" onClick={() => this.saveSession( false )} />
+						<HighlightOffTwoToneIcon className="save-session-clear" onClick={() => this.saveSession(false)} />
 					</Button>
 				</div>
 				<Button

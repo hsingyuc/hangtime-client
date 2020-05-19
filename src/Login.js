@@ -16,38 +16,38 @@ import Register from './Register';
 import Logo from './Logo';
 
 class Login extends React.Component {
-	constructor( props ) {
-		super( props );
-		this.onSubmit = this.onSubmit.bind( this );
+	constructor(props) {
+		super(props);
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	async onSubmit( values, { setErrors } ) {
+	async onSubmit(values, { setErrors }) {
 		const { email, password } = values;
 
-		const response = await fetch( 'http://localhost:8080/auth/login', {
+		const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			credentials: 'include',
-			body: JSON.stringify( {
+			body: JSON.stringify({
 				email,
 				password,
-			} ),
-		} );
+			}),
+		});
 		const json = await response.json();
 		const { setCurrentUser } = this.props;
-		if ( json.error ) {
-			setErrors( json.error.errors );
-		} else if ( json.data ) {
-			setCurrentUser( json.data.user );
+		if (json.error) {
+			setErrors(json.error.errors);
+		} else if (json.data) {
+			setCurrentUser(json.data.user);
 		}
 	}
 
 	render() {
 		const { currentUser } = this.props;
 
-		if ( currentUser ) {
+		if (currentUser) {
 			return <Redirect to="/" />;
 		}
 
@@ -61,70 +61,70 @@ class Login extends React.Component {
 						validate={Register.validate}
 						onSubmit={this.onSubmit}
 					>
-						{( {
+						{({
 							values,
 							errors,
 							touched,
 							handleChange,
 							handleBlur,
 							handleSubmit,
-						} ) => (
-							<form noValidate>
-								<TextField
-									InputProps={{
-										startAdornment: (
-											<AlternateEmailIcon />
-										),
-									}}
-									error={errors.email && touched.email}
-									margin="normal"
-									required
-									fullWidth
-									id="email"
-									label="Email Address"
-									name="email"
-									autoComplete="email"
-									autoFocus
-									value={values.email}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									helperText={touched.email && errors.email}
-								/>
-								<TextField
-									InputProps={{
-										startAdornment: (
-											<LockOutlinedIcon />
-										),
-									}}
-									error={errors.password && touched.password}
-									margin="normal"
-									required
-									fullWidth
-									name="password"
-									label="Password"
-									type="password"
-									id="password"
-									autoComplete="current-password"
-									value={values.password}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									helperText={touched.password && errors.password}
-								/>
-								<Button
-									onClick={handleSubmit}
-									type="submit"
-									fullWidth
-									variant="contained"
-									color="primary"
-									endIcon={<ArrowForwardIcon />}
-								>
-									Sign In
+						}) => (
+								<form noValidate>
+									<TextField
+										InputProps={{
+											startAdornment: (
+												<AlternateEmailIcon />
+											),
+										}}
+										error={errors.email && touched.email}
+										margin="normal"
+										required
+										fullWidth
+										id="email"
+										label="Email Address"
+										name="email"
+										autoComplete="email"
+										autoFocus
+										value={values.email}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										helperText={touched.email && errors.email}
+									/>
+									<TextField
+										InputProps={{
+											startAdornment: (
+												<LockOutlinedIcon />
+											),
+										}}
+										error={errors.password && touched.password}
+										margin="normal"
+										required
+										fullWidth
+										name="password"
+										label="Password"
+										type="password"
+										id="password"
+										autoComplete="current-password"
+										value={values.password}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										helperText={touched.password && errors.password}
+									/>
+									<Button
+										onClick={handleSubmit}
+										type="submit"
+										fullWidth
+										variant="contained"
+										color="primary"
+										endIcon={<ArrowForwardIcon />}
+									>
+										Sign In
 								</Button>
-								<Link href="/register">
-									Don't have an account? Sign Up
+									<Link href="/register">
+										Don't have an account? Sign Up
 								</Link>
-							</form>
-						)}
+								</form>
+							)}
 					</Formik>
 				</div>
 			</Container>
@@ -134,21 +134,21 @@ class Login extends React.Component {
 
 Login.propTypes = {
 	setCurrentUser: PropTypes.func.isRequired,
-	currentUser: PropTypes.instanceOf( Object ),
+	currentUser: PropTypes.instanceOf(Object),
 };
 
-const mapStateToProps = ( state ) => ( {
+const mapStateToProps = (state) => ({
 	currentUser: state.currentUser,
 	isAuthRequesting: state.isAuthRequesting,
-} );
+});
 
-const mapDispatchToProps = ( dispatch ) => ( {
-	setAuthRequesting: ( value ) => {
-		dispatch( actions.setAuthRequesting( value ) );
+const mapDispatchToProps = (dispatch) => ({
+	setAuthRequesting: (value) => {
+		dispatch(actions.setAuthRequesting(value));
 	},
-	setCurrentUser: ( user ) => {
-		dispatch( actions.setCurrentUser( user ) );
+	setCurrentUser: (user) => {
+		dispatch(actions.setCurrentUser(user));
 	},
-} );
+});
 
-export default connect( mapStateToProps, mapDispatchToProps )( Login );
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
