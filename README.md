@@ -1,9 +1,6 @@
 ## Hangtime-client
 This simple and easy to use workout app is for training finger strength for rock climbing by doing hangboard repeaters, max-hang or no-hang crimp.
 
-## Live demo
-https://hangtimer.herokuapp.com/
-
 ## Prerequisites
 Clone this repo to your desktop and run npm install to install all the dependencies.
 
