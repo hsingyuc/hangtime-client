@@ -15,7 +15,8 @@
 	border-bottom: 1px solid white;
 }
 
-.MuiInput-underline:after {
+.MuiInput-underline:after, 
+.MuiInput-underline:hover {
 	border-bottom: 1px solid $primary-color;
 }
 
@@ -30,8 +31,6 @@
 .MuiInputLabel-formControl {
     left: 35px;
 }
-
-
 
 .MuiInputBase-input:-webkit-autofill,
 .MuiInputBase-input:-webkit-autofill:hover,
@@ -60,6 +59,8 @@
 .MuiInputBase-input:focus,
 .MuiInputBase-input:-webkit-autofill {
     margin-left: 10px;
+    -webkit-text-fill-color: white;
+    box-shadow: 0 0 0px 1000px black inset;
 }
 
 .MuiTypography-colorPrimary {
