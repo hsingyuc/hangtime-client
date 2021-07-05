@@ -1,4 +1,4 @@
-| ![App demo](image/login.png) | ![App demo](image/workouts.png) | ![App demo](image/timer.png) |
+![App demo](image/login.png) ![App demo](image/workouts.png) ![App demo](image/timer.png)
 ## Hangtime-client
 This simple and easy to use workout app is for training finger strength for rock climbing by doing hangboard repeaters, max-hang or no-hang crimp.
 
