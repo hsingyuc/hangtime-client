@@ -82,51 +82,51 @@ class Register extends React.PureComponent {
 						} ) => (
 							<form noValidate>
 								<TextField
-  InputProps={{
+									InputProps={{
 										startAdornment: (
 											<AlternateEmailIcon />
 										),
 									}}
-  error={errors.email && touched.email}
-  margin="normal"
-  required
-  fullWidth
-  id="email"
-  label="Email Address"
-  name="email"
-  autoComplete="email"
-  autoFocus
-  value={values.email}
-  onChange={handleChange}
-  onBlur={handleBlur}
-  helperText={touched.email && errors.email}
+									error={errors.email && touched.email}
+									margin="normal"
+									required
+									fullWidth
+									id="email"
+									label="Email Address"
+									name="email"
+									autoComplete="email"
+									autoFocus
+									value={values.email}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									helperText={touched.email && errors.email}
 								/>
 								<TextField
-  InputProps={{
+									InputProps={{
 										startAdornment: (
 											<LockOutlinedIcon />
 										),
 									}}
-  error={errors.password && touched.password}
-  margin="normal"
-  required
-  fullWidth
-  name="password"
-  label="Password"
-  type="password"
-  id="password"
-  autoComplete="current-password"
-  value={values.password}
-  onChange={handleChange}
-  onBlur={handleBlur}
-  helperText={touched.password && errors.password}
+									error={errors.password && touched.password}
+									margin="normal"
+									required
+									fullWidth
+									name="password"
+									label="Password"
+									type="password"
+									id="password"
+									autoComplete="current-password"
+									value={values.password}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									helperText={touched.password && errors.password}
 								/>
 								<Button
-  onClick={handleSubmit}
-  type="submit"
-  fullWidth
-  variant="contained"
-  color="primary"
+									onClick={handleSubmit}
+									type="submit"
+									fullWidth
+									variant="contained"
+									color="primary"
 								>
 									Register
 								</Button>
@@ -142,6 +142,10 @@ class Register extends React.PureComponent {
 Register.propTypes = {
 	setCurrentUser: PropTypes.func.isRequired,
 	currentUser: PropTypes.instanceOf( Object ),
+};
+
+Register.defaultProps = {
+	currentUser: null,
 };
 
 const mapStateToProps = ( state ) => ( {

@@ -114,4 +114,8 @@ App.propTypes = {
 	currentUser: PropTypes.instanceOf( Object ),
 };
 
+App.defaultProps = {
+	currentUser: null,
+};
+
 export default connect( mapStateToProps, mapDispatchToProps )( App );
