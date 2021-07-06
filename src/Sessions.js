@@ -58,9 +58,6 @@ class Sessions extends React.PureComponent {
 							<TableHead>
 								<TableRow>
 									<TableCell>
-										ID
-									</TableCell>
-									<TableCell>
 										Type
 									</TableCell>
 									<TableCell>
@@ -75,9 +72,6 @@ class Sessions extends React.PureComponent {
 							<TableBody>
 								{sessions.slice( page * 7, page * 7 + 7 ).map( ( session ) => (
 									<TableRow hover role="checkbox" tabIndex={-1} key={session.id}>
-										<TableCell>
-											{session.id}
-										</TableCell>
 										<TableCell>
 											{session.type}
 										</TableCell>
