@@ -37,7 +37,7 @@ export default class ProgressCircle extends React.Component {
 					{this.renderText()}
 				</span>
 				<CircularProgress
-  					className="circle-before-ready"
+					className="circle-before-ready"
 					variant="static"
 					value={percentComplete}
 					size={200}
@@ -51,6 +51,10 @@ ProgressCircle.propTypes = {
 	totalTime: PropTypes.number.isRequired,
 	remainingTime: PropTypes.number.isRequired,
 	status: PropTypes.string.isRequired,
-	reps: PropTypes.number.isRequired,
+	reps: PropTypes.number,
 	currentRep: PropTypes.number.isRequired,
+};
+
+ProgressCircle.defaultProps = {
+	reps: null,
 };
