@@ -29,18 +29,18 @@ class App extends React.Component {
 				credentials: 'include',
 			},
 		)
-			.then(async (res) => {
+			.then( async ( res ) => {
 				const json = await res.json();
-				if (res.status === 200) {
-					setCurrentUser(json.data.user);
-					setAuthRequesting(false);
+				if ( res.status === 200 ) {
+					setCurrentUser( json.data.user );
+					setAuthRequesting( false );
 				} else {
-					setAuthRequesting(false);
+					setAuthRequesting( false );
 				}
-			})
-			.catch(() => {
-				setAuthRequesting(false);
-			});
+			} )
+			.catch( () => {
+				setAuthRequesting( false );
+			} );
 	}
 
 	render() {
@@ -61,18 +61,18 @@ class App extends React.Component {
 			renders the first one that matches the current URL. */}
 						<div className="container">
 							<Switch>
-								{Workouts.getTypes().map((workout) => (
+								{Workouts.getTypes().map( ( workout ) => (
 									<Route
 										path={`/workouts/${workout.slug}`}
 										key={workout.slug}
 										component={() => {
-											const WrappedWorkout = withAuth(Workout);
+											const WrappedWorkout = withAuth( Workout );
 											return <WrappedWorkout {...workout} />;
 										}}
 									/>
-								))}
+								) )}
 
-								<Route path="/history" component={withAuth(Sessions)} />
+								<Route path="/history" component={withAuth( Sessions )} />
 
 								<Route path="/login">
 									<Login />
@@ -82,7 +82,7 @@ class App extends React.Component {
 									<Register />
 								</Route>
 
-								<Route path="/" component={withAuth(Workouts)} />
+								<Route path="/" component={withAuth( Workouts )} />
 
 							</Switch>
 						</div>
@@ -94,24 +94,24 @@ class App extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = ( state ) => ( {
 	currentUser: state.currentUser,
 	isAuthRequesting: state.isAuthRequesting,
-});
+} );
 
-const mapDispatchToProps = (dispatch) => ({
-	setAuthRequesting: (value) => {
-		dispatch(actions.setAuthRequesting(value));
+const mapDispatchToProps = ( dispatch ) => ( {
+	setAuthRequesting: ( value ) => {
+		dispatch( actions.setAuthRequesting( value ) );
 	},
-	setCurrentUser: (user) => {
-		dispatch(actions.setCurrentUser(user));
+	setCurrentUser: ( user ) => {
+		dispatch( actions.setCurrentUser( user ) );
 	},
-});
+} );
 
 App.propTypes = {
 	setAuthRequesting: PropTypes.func.isRequired,
 	setCurrentUser: PropTypes.func.isRequired,
-	currentUser: PropTypes.instanceOf(Object),
+	currentUser: PropTypes.instanceOf( Object ),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect( mapStateToProps, mapDispatchToProps )( App );

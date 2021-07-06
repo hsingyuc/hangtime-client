@@ -19,9 +19,9 @@ class LogoutButton extends React.Component {
 				},
 				credentials: 'include',
 			},
-		).then(() => {
-			setCurrentUser(null);
-		});
+		).then( () => {
+			setCurrentUser( null );
+		} );
 	}
 
 	render() {
@@ -37,21 +37,21 @@ class LogoutButton extends React.Component {
 }
 
 LogoutButton.propTypes = {
-	setCurrentUser: PropTyeps.instanceOf(Object).isRequired,
+	setCurrentUser: PropTyeps.instanceOf( Object ).isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = ( state ) => ( {
 	currentUser: state.currentUser,
 	isAuthRequesting: state.isAuthRequesting,
-});
+} );
 
-const mapDispatchToProps = (dispatch) => ({
-	setAuthRequesting: (value) => {
-		dispatch(actions.setAuthRequesting(value));
+const mapDispatchToProps = ( dispatch ) => ( {
+	setAuthRequesting: ( value ) => {
+		dispatch( actions.setAuthRequesting( value ) );
 	},
-	setCurrentUser: (user) => {
-		dispatch(actions.setCurrentUser(user));
+	setCurrentUser: ( user ) => {
+		dispatch( actions.setCurrentUser( user ) );
 	},
-});
+} );
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogoutButton);
+export default connect( mapStateToProps, mapDispatchToProps )( LogoutButton );
