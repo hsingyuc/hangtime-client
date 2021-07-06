@@ -11,14 +11,14 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
 class Sessions extends React.PureComponent {
-	constructor(props) {
-		super(props);
+	constructor( props ) {
+		super( props );
 		this.state = {
 			sessions: [],
 			page: 0,
 		};
 
-		this.handleChangePage = this.handleChangePage.bind(this);
+		this.handleChangePage = this.handleChangePage.bind( this );
 	}
 
 	componentDidMount() {
@@ -34,18 +34,17 @@ class Sessions extends React.PureComponent {
 			},
 		);
 		const json = await response.json();
-		this.setState({ sessions: json.data });
-		console.log(json.data);
+		this.setState( { sessions: json.data } );
 	}
 
-	static getDaysDifference(item) {
+	static getDaysDifference( item ) {
 		const millisecondsPerDay = 1000 * 60 * 60 * 24;
-		const date = new Date(Date.parse(item.createdAt));
-		return Math.round((new Date() - date) / millisecondsPerDay);
+		const date = new Date( Date.parse( item.createdAt ) );
+		return Math.round( ( new Date() - date ) / millisecondsPerDay );
 	}
 
-	handleChangePage(event, page) {
-		this.setState({ page });
+	handleChangePage( event, page ) {
+		this.setState( { page } );
 	}
 
 	render() {
@@ -74,7 +73,7 @@ class Sessions extends React.PureComponent {
 							</TableHead>
 
 							<TableBody>
-								{sessions.slice(page * 7, page * 7 + 7).map((session) => (
+								{sessions.slice( page * 7, page * 7 + 7 ).map( ( session ) => (
 									<TableRow hover role="checkbox" tabIndex={-1} key={session.id}>
 										<TableCell>
 											{session.id}
@@ -86,10 +85,10 @@ class Sessions extends React.PureComponent {
 											{session.isSuccess ? 'Success' : 'Failed'}
 										</TableCell>
 										<TableCell>
-											{Sessions.getDaysDifference(session)}
+											{Sessions.getDaysDifference( session )}
 										</TableCell>
 									</TableRow>
-								))}
+								) )}
 							</TableBody>
 						</Table>
 					</TableContainer>
@@ -108,11 +107,11 @@ class Sessions extends React.PureComponent {
 }
 
 Sessions.propTypes = {
-	currentUser: PropTypes.instanceOf(Object).isRequired,
+	currentUser: PropTypes.instanceOf( Object ).isRequired,
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = ( state ) => ( {
 	currentUser: state.currentUser,
 	isAuthRequesting: state.isAuthRequesting,
-});
+} );
 
-export default connect(mapStateToProps)(Sessions);
+export default connect( mapStateToProps )( Sessions );

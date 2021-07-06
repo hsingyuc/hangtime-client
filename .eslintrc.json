@@ -22,12 +22,41 @@
         "react"
     ],
     "rules": {
-        "space-in-parens": ["error", "always"],
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "func-names": ["error", "never"],
-        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-        "indent": ["error", "tab"],
-        "react/jsx-indent": ["error", "tab"],
+        "space-in-parens": [
+            "error",
+            "always"
+        ],
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "func-names": [
+            "error",
+            "never"
+        ],
+        "no-plusplus": [
+            "error",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ],
+        "indent": [
+            "error",
+            "tab"
+        ],
+        "react/jsx-indent": [
+            "error",
+            "tab"
+        ],
+        "react/jsx-indent-props": [
+            "error",
+            "tab"
+        ],
         "no-tabs": 0,
         "react/jsx-props-no-spreading": "off"
     }
