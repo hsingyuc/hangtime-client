@@ -4,24 +4,24 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-function withAuth( ComponentToProtect ) {
-	return class extends React.PureComponent {
-		render() {
-			const { currentUser, isAuthRequesting } = this.props;
-			if ( isAuthRequesting ) {
-				return 'Loading...';
-			}
-			if ( !currentUser ) {
-				return <Redirect to="/login" />;
-			}
-			return <ComponentToProtect {...this.props} />;
+const withAuth = ( ComponentToProtect ) => {
+	const EnhancedComponent = ( props ) => {
+		const { currentUser, isAuthRequesting } = props;
+		if ( isAuthRequesting ) {
+			return 'Loading...';
 		}
+		if ( !currentUser ) {
+			return <Redirect to="/login" />;
+		}
+		return <ComponentToProtect {...props} />;
 	};
-}
 
-withAuth.propTypes = {
-	currentUser: PropTypes.objectOf( PropTypes.object ).isRequired,
-	isAuthRequesting: PropTypes.bool.isRequired,
+	EnhancedComponent.propTypes = {
+		currentUser: PropTypes.instanceOf( Object ).isRequired,
+		isAuthRequesting: PropTypes.bool.isRequired,
+	};
+
+	return EnhancedComponent;
 };
 
 const mapStateToProps = ( state ) => ( {
